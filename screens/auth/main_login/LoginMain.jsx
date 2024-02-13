@@ -23,7 +23,6 @@ import { COLORS, SIZES, images } from '../../../constants'
 import { FORGOT_SCREEN, REGISTER_SCREEN } from '../../../constants/nameRoute'
 import useAuth from '../../hooks/authHooks/useAuth'
 import styleLoginMain from './loginmain.style'
-import { ELDERCARE_AUTH } from '../../../FirebaseConfig'
 
 export default function LoginMain({ navigation }) {
   const { login, isLoginLoading } = useAuth()
@@ -32,8 +31,9 @@ export default function LoginMain({ navigation }) {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    fcmToken:'',
   })
-  console.log(formData);
+  // console.log(formData);
   const animatedValue = useRef(new Animated.Value(50)).current
   const animatedValueOpacity = useRef(new Animated.Value(0)).current
   useFocusEffect(() => {
@@ -53,9 +53,11 @@ export default function LoginMain({ navigation }) {
   })
 
   const handleLogin = async () => {
-    const { email, password } = formData
-    await login({ email, password })
-  }
+    const { email, password, fcmToken } = formData;
+    // console.log('FCMToken:', fcmToken); 
+    await login({ email, password, fcmToken });
+  };
+  
 
   const handleInputChange = (name, value) => {
     setFormData({

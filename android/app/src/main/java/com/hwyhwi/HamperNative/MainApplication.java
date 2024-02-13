@@ -1,4 +1,4 @@
-package com.hwyhwi.HamperNative;
+package com.hwyhwi.ElderCare;
 
 import android.app.Application;
 import android.content.res.Configuration;
