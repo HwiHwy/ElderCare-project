@@ -330,7 +330,6 @@ const Search = () => {
           }
         >
           <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
-          {/* <AntDesign style={searchStyle.icon} name="Safety" size={20} /> */}
         </View>
       </TouchableOpacity>
     );
@@ -388,7 +387,6 @@ const Search = () => {
     console.log("Tuổi", ageSelected);
   };
 
-  // //////////////////////////
 
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>

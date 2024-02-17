@@ -14,9 +14,9 @@ import { reuse } from "../../components";
 import { images } from "../../constants";
 import { SEARCH_SCREEN } from "../../constants/nameRoute";
 
-import homeStyle from "./home.style";
+import homeStyle from "./NotificationStyles";
 
-export default function Home() {
+export default function DetailNotificationScreen() {
   const navigation = useNavigation();
 
   return (

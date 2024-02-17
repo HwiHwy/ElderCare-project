@@ -9,6 +9,8 @@ import LoginScreen from './auth/main/LoginScreen'
 import LoginMain from './auth/main_login/LoginMain'
 import RegisterSreen from './auth/register/RegisterSreen'
 import NotificationScreen from './notifications/NotificationScreen'
+import DetailNotificationScreen from './notifications/DetailNotificationScreen'
+
 import OnboardingScreen from './onboarding/OnboardingScreen'
 import PickUpScreen from './pickup/PickUpScreen'
 import PickUpScreenDetail from './pickup/PickUpdetailScreen'
@@ -27,6 +29,7 @@ export {
   LoginScreen,
   RegisterSreen,
   NotificationScreen,
+  DetailNotificationScreen,
   LoginMain,
   OnboardingScreen,
   Search,

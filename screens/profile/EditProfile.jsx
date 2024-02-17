@@ -5,7 +5,6 @@ import styleProfile from './profile.style'
 
 import useAutoFocusInputs from 'use-auto-focus-inputs'
 
-// import Avatar from '../../constants/images'
 import Avatar from '../../assets/images/Ava.png'
 import { COLORS } from '../../constants'
 import useUpdateUserHooks from '../hooks/userHooks/useUpdateUserHooks'

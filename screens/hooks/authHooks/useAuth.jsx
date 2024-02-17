@@ -9,10 +9,19 @@ import {
 } from "../../../constants/nameRoute";
 import { Alert } from "react-native";
 import { useEffect } from "react";
-
+import { jwtDecode } from "jwt-decode";
+import { base64 } from "base64-js";
+import { decode, encode } from "base-64";
 const loginURL =
   "https://elder-care-api.monoinfinity.net/api/Login/loginCustomer";
 const registerURL = "https://63692ab028cd16bba716cff0.mockapi.io/news";
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
 
 const loginQuery = async ({ email, password, fcmToken }) => {
   try {
@@ -66,11 +75,15 @@ const fetchUserDataById = async (accountId, token) => {
   }
 };
 
-
 function useAuth(accountId, token) {
   const navigation = useNavigation();
   useEffect(() => {
-    console.log("useEffect triggered with accountId:", accountId, "and token:", token);
+    console.log(
+      "useEffect triggered with accountId:",
+      accountId,
+      "and token:",
+      token
+    );
     const fetchData = async () => {
       try {
         const userData = await fetchUserDataById(accountId, token);
@@ -79,22 +92,32 @@ function useAuth(accountId, token) {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     if (accountId !== undefined && token !== undefined) {
       fetchData();
     }
   }, [accountId, token]);
-  
-  
 
   const loginMutation = useMutation({
     mutationFn: loginQuery,
     onSuccess: async (data) => {
       try {
         const userToken = data?.data;
-        await AsyncStorage.setItem("userData", JSON.stringify(data));
-        navigation.push(BOTTOM);
+
+        if (userToken && typeof userToken === "string" && userToken.trim() !== "") {
+          const decodedUserData = jwtDecode(userToken);
+
+          console.log("Decoded User Data:", decodedUserData);
+
+          await AsyncStorage.setItem("userData", JSON.stringify(decodedUserData));
+          await AsyncStorage.setItem("tokenUser", userToken);
+
+          navigation.push(BOTTOM);
+        } else {
+          Alert.alert("Lỗi đăng nhập", "Đã xảy ra lỗi khi đăng nhập");
+        }
       } catch (error) {
+        console.error("Error decoding or storing user data:", error);
         throw error;
       }
     },
