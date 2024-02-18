@@ -4,7 +4,6 @@ import { Image, Pressable, SafeAreaView, StatusBar, View } from 'react-native'
 import { AppBar, ReusedButton, ReusedText, reuse } from '../../components'
 import styleProfile from './profile.style'
 
-// import Avatar from '../../constants/images'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import Avatar from '../../assets/images/Ava.png'
