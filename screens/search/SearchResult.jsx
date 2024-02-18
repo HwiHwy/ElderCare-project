@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { CARERDETAIL_SCREEN, SEARCH_SCREEN } from "../../constants/nameRoute";
 import searchResultStyle from "./searchResult.style";
 import PopupContent from "./PopupContent ";
+import Booking from "./Booking";
 
 //id, CarerName,Location,Gender,TimeShift,Age,img,Price
 //tuoi, gioi tinh, uy tin, kha nang cong viec,
@@ -109,7 +110,10 @@ export default function SearchResult() {
   const handlePopupClose = () => {
     setPopupVisible(false);
   };
+  const handleBookNow = () => {
 
+    setPopupVisible(false);
+  };
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
@@ -282,6 +286,7 @@ export default function SearchResult() {
         onClose={handlePopupClose}
         carerDetails={selectedCarerDetails}
       />
+
     </SafeAreaView>
   );
 }

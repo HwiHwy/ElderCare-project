@@ -28,7 +28,12 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "main";
   }
-
+    @Override
+    public void onNewIntent(Intent intent) {
+        ...
+        super.onNewIntent(intent);
+        ...
+    }
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
    * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React

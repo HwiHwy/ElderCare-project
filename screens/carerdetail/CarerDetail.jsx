@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -22,6 +22,7 @@ import {
 import { ReusedButton } from "../../components";
 import { COLORS } from "../../constants";
 import { HOME_SCREEN } from "../../constants/nameRoute";
+import Booking from "../search/Booking";
 
 const CarerDetail = ({ route, navigation }) => {
   const { carerDetails } = route.params || {};
@@ -49,8 +50,7 @@ const CarerDetail = ({ route, navigation }) => {
       scale.value = withTiming(scaleValue, { duration: 100 });
     })
     .onEnd(() => {
-      if (translateY.value > 10
-      ) {
+      if (translateY.value > 10) {
         opacity.value = 0;
         runOnJS(navigation.goBack)();
       } else {
@@ -75,6 +75,15 @@ const CarerDetail = ({ route, navigation }) => {
     overflow: "hidden",
   }));
 
+  const [isBookingVisible, setBookingVisible] = useState(false);
+
+  const handleBookNow = () => {
+    setBookingVisible(true);
+  };
+
+  const handleCloseBooking = () => {
+    setBookingVisible(false);
+  };
   return (
     <ScrollView style={styles.container}>
       <GestureHandlerRootView>
@@ -82,7 +91,7 @@ const CarerDetail = ({ route, navigation }) => {
           <Animated.View style={[styles.imageContainer, animatedStyle]}>
             <Image source={{ uri: img }} style={styles.image} />
             <Animated.View>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={handleBookNow}>
                 <View style={styles.btn}>
                   <Text style={styles.btnText}>Book now</Text>
                 </View>
@@ -112,6 +121,14 @@ const CarerDetail = ({ route, navigation }) => {
           </Animated.View>
         </GestureDetector>
       </GestureHandlerRootView>
+      <Booking
+        visible={isBookingVisible}
+        onClose={handleCloseBooking}
+        onBookNow={() => {
+          alert('Booking confirmed!');
+          handleCloseBooking(); 
+        }}
+      />
     </ScrollView>
   );
 };
