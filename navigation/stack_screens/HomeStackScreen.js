@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   CARERDETAIL_SCREEN,
-  // CARERDETAIL_SCREEN,
+  ELDER_DETAIL_SCREEN,
   HOME_SCREEN,
   MOMO_PAYMENT_SCREEN,
   PICKUP_SCREEN,
@@ -22,6 +22,7 @@ import MomoPayment from "../../screens/pickup/momo/MomoPayment";
 import SearchResult from "../../screens/search/SearchResult";
 import CarerDetail from "../../screens/carerdetail/CarerDetail";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import ElderDetail from "../../screens/home/ElderDetail";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -48,6 +49,11 @@ export default function HomeStackScreen() {
         <HomeStack.Screen
           name={CARERDETAIL_SCREEN}
           component={CarerDetail}
+          options={{ headerShown: false, presentation: "transparentModal" }}
+        />
+        <HomeStack.Screen
+          name={ELDER_DETAIL_SCREEN}
+          component={ElderDetail}
           options={{ headerShown: false, presentation: "transparentModal" }}
         />
         <HomeStack.Screen

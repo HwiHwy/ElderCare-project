@@ -50,6 +50,37 @@ const homeStyle = StyleSheet.create({
     paddingHorizontal: SIZES.small,
     fontSize: 16,
   },
+  boxUnderSearch: {
+    height: 500, 
+    backgroundColor: COLORS.white, 
+    marginTop: 10, 
+    borderRadius: 5,
+    shadowColor: COLORS.gray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    elevation: 30,
+  },
+  addButton: {
+    backgroundColor: "#3498db",
+    borderRadius: 5, 
+    padding: 10, 
+    marginTop: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  popupContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  popupContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: 300,
+    alignItems: "center",
+  },
 });
 
 export default homeStyle;

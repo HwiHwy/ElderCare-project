@@ -1,5 +1,5 @@
 import { AntDesign, Ionicons, MaterialIcons } from '@expo/vector-icons'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Image, Pressable, SafeAreaView, StatusBar, View } from 'react-native'
 import { AppBar, ReusedButton, ReusedText, reuse } from '../../components'
 import styleProfile from './profile.style'
@@ -12,34 +12,75 @@ import {
   CHANGE_PASSWORD_SCREEN,
   EDIT_PROFILE_SCREEN,
 } from '../../constants/nameRoute'
+import axios from 'axios'
 
 const ProfileDetail = ({ navigation }) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState(null);
+  const [token, setToken] = useState(null);
+  const [accountId, setAccountId] = useState(null);
+
   useFocusEffect(
     useCallback(() => {
       const getData = async () => {
         try {
-          const data = await AsyncStorage.getItem('userData')
-          if (data !== null) {
-            const parsedData = JSON.parse(data)
-            setData(parsedData)
+          console.log('Attempting to retrieve data from AsyncStorage...');
+          const storedData = await AsyncStorage.getItem('userData');
+          const storedToken = await AsyncStorage.getItem('tokenUser');
+
+          if (storedData && storedToken) {
+            const parsedData = JSON.parse(storedData);
+            setData(parsedData);
+            setToken(storedToken);
+            setAccountId(parsedData.Id);
           } else {
-            console.log('Data not found.')
+            console.log('Data not found in AsyncStorage.');
           }
         } catch (error) {
-          console.error('Error retrieving data:', error)
+          console.error('Error retrieving data:', error);
         }
-      }
-      getData()
+      };
+
+      getData();
     }, [])
-  )
+  );
+
+  useEffect(() => {
+    if (accountId && token) {
+      fetchUserDataById(accountId);
+    }
+  }, [accountId, token]);
+
+  const fetchUserDataById = async (accountId) => {
+    try {
+      const apiUrl = `https://elder-care-api.monoinfinity.net/api/Accounts/${accountId}`;
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+      if (response.status === 200) {
+        const userData = response.data;
+        setData(userData)
+      } else {
+        console.error('API Error:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   const user = {
-    name: data?.firstName + ' ' + data?.lastName,
-    address: data?.address || 'TBD',
-    phone: data?.phone || 'TBD',
-    email: data?.email,
-  }
+    name: data?.username || 'Username not available',
+    address: data?.address || 'Address not available',
+    phone: data?.phoneNumber || 'Phone number not available',
+    email: data?.email || 'Email not available',
+  };
+  
+  // console.log("aaa", data);
+
+
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
@@ -111,4 +152,4 @@ const ProfileDetail = ({ navigation }) => {
   )
 }
 
-export default ProfileDetail
+export default ProfileDetail;
