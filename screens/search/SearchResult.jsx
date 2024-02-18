@@ -34,7 +34,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/564x/ea/b3/08/eab3082194aa10b478334f7e1ea785d8.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
   {
@@ -44,7 +44,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/564x/40/c1/7d/40c17d1eb652edca0b94d853e8434956.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
   {
@@ -54,7 +54,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/564x/31/52/0a/31520a246bbb02315fc294904269a9a9.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
   {
@@ -64,7 +64,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/736x/65/02/f4/6502f4c90923f850c81b16e586e03ebf.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
   {
@@ -74,7 +74,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/564x/3d/ee/45/3dee452688dceb54dbfb6150538f792f.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
   {
@@ -84,7 +84,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://i.pinimg.com/564x/f8/64/4e/f8644edcf5326e83d24397cb642177ec.jpg",
+    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
     Price: 200,
   },
 ];
