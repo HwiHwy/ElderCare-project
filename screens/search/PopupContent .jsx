@@ -1,5 +1,5 @@
 // PopupContent.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,24 +7,108 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   StyleSheet,
+  Linking 
 } from "react-native";
 import { COLORS } from "../../constants";
 import { ReusedButton } from "../../components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const PopupContent = ({ visible, onClose,carerDetails  }) => {
+const PopupContent = ({ visible, onClose, carerDetails }) => {
+  useEffect(() => {
+    if (carerDetails && carerDetails.id) {
+      console.log("id", carerDetails.id);
+    }
+  }, [carerDetails]);
+
   if (!visible || !carerDetails) {
     return null;
   }
-  const { id, CarerName, Location, Gender, TimeShift, Age, img, Price } = carerDetails;
+  const { id, CarerName, Location, Gender, TimeShift, Age, img, Price } =
+    carerDetails;
 
-    const navigation = useNavigation();
-    const handleConfirmation = () => {
-      navigation.navigate(CARERDETAIL_SCREEN, { carerDetails });
+  console.log(carerDetails);
+  const navigation = useNavigation();
+  const handleConfirmation = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem("tokenUser");
+  
+      if (!storedToken) {
+        console.error("Token not found");
+        return;
+      }
+  
+      const postData = {
+        figureMoney: 10000,
+        type: "Thanh toán phí xem thêm cho Carer: " + carerDetails.CarerName,
+        dateTime: "2024-02-21T17:17:56.482Z",
+      };
+  
+      const response = await fetch(
+        "https://elder-care-api.monoinfinity.net/api/Transaction",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${storedToken}`,
+          },
+          body: JSON.stringify(postData),
+        }
+      );
+  
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("API Response:", responseData);
+  
+        if (responseData.success) {
+          // If the first API call is successful, make the second API call
+          const linkPaymentResponse = await fetch(
+            "https://elder-care-api.monoinfinity.net/link-payment",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${storedToken}`,
+              },
+            }
+          );
+  
+          if (linkPaymentResponse.ok) {
+            const linkPaymentText = await linkPaymentResponse.text();
+            console.log("Link Payment API Response (Raw Text):", linkPaymentText);
+          
+            // Open the link in the device's browser
+            try {
+              await Linking.openURL(linkPaymentText);
+            } catch (error) {
+              console.error("Error opening URL:", error);
+            }
+          } else {
+            console.error(
+              "Link Payment API Error:",
+              linkPaymentResponse.status,
+              linkPaymentResponse.statusText
+            );
+            const errorResponse = await linkPaymentResponse.text(); 
+            console.error("Link Payment API Error Response:", errorResponse);
+          }
+        }
+      } else {
+        console.error("API Error:", response.status, response.statusText);
+        const errorResponse = await response.json();
+        console.error("API Error Response:", errorResponse);
+      }
+  
+      // navigation.navigate(CARERDETAIL_SCREEN, { carerDetails });
       onClose();
-    };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  
+
   return (
     <Modal transparent visible={visible} animationType="fade">
       <TouchableWithoutFeedback onPress={onClose}>
@@ -38,10 +122,11 @@ const PopupContent = ({ visible, onClose,carerDetails  }) => {
                 <Icon name="times" size={20} color={COLORS.primary} />
               </TouchableOpacity>
               <Text style={PopupContentStyle.popupText}>
-              Bạn phải trả thêm phí để xem toàn bộ thông tin người chăm sóc này (ID: {carerDetails.id})
+                Bạn phải trả thêm phí để xem toàn bộ thông tin người chăm sóc
+                này (ID: {carerDetails.id})
               </Text>
               <View style={PopupContentStyle.btnWrapper}>
-              <TouchableOpacity onPress={onClose}>
+                <TouchableOpacity onPress={onClose}>
                   <View style={PopupContentStyle.btn}>
                     <Text style={PopupContentStyle.btnText}>Hủy</Text>
                   </View>
@@ -87,8 +172,7 @@ const PopupContentStyle = StyleSheet.create({
     marginBottom: 100,
     marginTop: 50,
     textAlign: "center",
-    
-},
+  },
   btn: {
     width: 150,
     height: 50,

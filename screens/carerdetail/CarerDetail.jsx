@@ -145,12 +145,28 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 500,
+    borderRadius: 15  ,
+    shadowOffset: {
+      width: 1,
+      height: 50,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
+    elevation: 1,
   },
   btn: {
     backgroundColor: COLORS.primary,
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 15  ,
     marginTop: 10,
+    marginHorizontal: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 50,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
   },
   btnText: {
     color: "#fff",

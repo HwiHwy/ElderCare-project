@@ -18,6 +18,7 @@ import { COLORS, SIZES } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native";
 import { SEARCH_RESULT_SCREEN } from "../../constants/nameRoute";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Search = () => {
   const [selectedTimeshift, setSelectedTimeshift] = useState([]);
@@ -107,49 +108,6 @@ const Search = () => {
       value: " Khả năng ngoại ngữ (Language proficiency)",
       search: "Khả năng ngoại ngữ (Language proficiency)",
     },
-    {
-      label: "Y tá",
-      value: "Nurse",
-      search: "Y tá",
-    },
-    {
-      label: "Điều dưỡng ",
-      value: "Caregiver",
-      search: "Điều dưỡng ",
-    },
-    {
-      label: "Dược sĩ",
-      value: "Pharmacist",
-      search: "Dược sĩ",
-    },
-    {
-      label: "Bác sĩ",
-      value: "Doctor",
-      search: "Bác sĩ",
-    },
-    {
-      label: "Khả năng làm vườn",
-      value: "Gardening",
-      search: "Khả năng làm vườn",
-    },
-    {
-      label: "Khả năng ca hát, chơi nhạc cụ",
-      value: "Singing",
-      search: "Khả năng ca hát, chơi nhạc cụ",
-    },
-    {
-      label: "Khả năng chơi cờ vua, cờ tướng",
-      value: "Chess",
-      search: "Khả năng chơi cờ vua, cờ tướng",
-    },
-    {
-      label: "Khả năng tâm sự, trò chuyện",
-      value: "Communication",
-      search: "Khả năng tâm sự, trò chuyệng",
-    },
-    ...genderOptions,
-    ...timeShilf,
-    ...ageData,
   ];
 
   const locationData = [
@@ -255,7 +213,7 @@ const Search = () => {
       search: "Thành phố Thủ Đức",
     },
   ];
-
+  const [selectedGender, setSelectedGender] = useState([]);
   const [selected, setSelected] = useState([]);
   const onSelectAll = (isSelectAll = true) => {
     const selectItem = [];
@@ -279,7 +237,6 @@ const Search = () => {
           }
         >
           <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
-          {/* <AntDesign style={searchStyle.icon} name="Safety" size={20} /> */}
         </View>
       </TouchableOpacity>
     );
@@ -305,6 +262,8 @@ const Search = () => {
       </TouchableOpacity>
     );
   };
+
+  //location
 
   const [location, setlocation] = useState([]);
 
@@ -358,34 +317,204 @@ const Search = () => {
   };
 
   // //////////////////////////
+  //Gender
+  const [gender, setGender] = useState([]);
 
-  const handleSearch = () => {
+  const onSelectAllGender = (isSelectAll = true) => {
+    const selectItemGender = [];
+    if (isSelectAll) {
+      genderOptions.map((item) => {
+        selectItemGender.push(item.value);
+      });
+    }
+    setGender(selectItemGender);
+  };
+  const renderItemGender = (item) => {
+    const isSelectedItem = gender.includes(item.value);
+
+    return (
+      <TouchableOpacity onPress={() => onSelectItemGender(item)}>
+        <View
+          style={
+            isSelectedItem
+              ? searchStyle.selectedStyleSelected
+              : searchStyle.selectedStyle
+          }
+        >
+          <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const onSelectItemGender = (item) => {
+    if (gender.includes(item.value)) {
+      setGender(gender.filter((value) => value !== item.value));
+    } else {
+      setGender([...gender, item.value.trim()]);
+    }
+  };
+
+  const renderSelectAllIconGender = () => {
+    const isSelectAllGender = gender.length === genderOptions.length;
+    return (
+      <TouchableOpacity
+        style={searchStyle.wrapSelectAll}
+        onPress={() => onSelectAllGender(!isSelectAllGender)}
+      >
+        <Text style={searchStyle.txtSelectAll}>
+          {isSelectAllGender ? `UnSelect All` : "Select All"}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+  /////////////////////////////////////////////
+  //timeshift
+  const [timeShift, setTimeShift] = useState([]);
+
+  const onSelectAlltimeShift = (isSelectAll = true) => {
+    const selectItemtimeShift = [];
+    if (isSelectAll) {
+      timeShilf.forEach((item) => {
+        if (!timeShift.includes(item.value)) {
+          selectItemtimeShift.push(item.value);
+        }
+      });
+    }
+    setTimeShift([...timeShift, ...selectItemtimeShift]);
+  };
+
+  const renderItemtimeShift = (item) => {
+    const isSelectedItem = timeShift.includes(item.value);
+
+    return (
+      <TouchableOpacity onPress={() => onSelectItemtimeShift(item)}>
+        <View
+          style={
+            isSelectedItem
+              ? searchStyle.selectedStyleSelected
+              : searchStyle.selectedStyle
+          }
+        >
+          <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const onSelectItemtimeShift = (item) => {
+    if (timeShift.includes(item.value)) {
+      setTimeShift(timeShift.filter((value) => value !== item.value));
+    } else {
+      setTimeShift([...timeShift, item.value.trim()]);
+    }
+  };
+
+  const renderSelectAllIcontimeShift = () => {
+    const isSelectAlltimeShift = timeShift.length === timeShilf.length;
+    return (
+      <TouchableOpacity
+        style={searchStyle.wrapSelectAll}
+        onPress={() => onSelectAlltimeShift(!isSelectAlltimeShift)}
+      >
+        <Text style={searchStyle.txtSelectAll}>
+          {isSelectAlltimeShift ? `UnSelect All` : "Select All"}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+/////////////////////////////////////////
+//age
+const [age, setAge] = useState([]);
+const onSelectAllAge = (isSelectAll = true) => {
+  if (isSelectAll) {
+    const selectItemAge = ageData.map((item) => item.value);
+    setAge(selectItemAge);
+  } else {
+    setAge([]);
+  }
+};
+
+
+const renderItemAge = (item) => {
+  const isSelectedItem = age.includes(item.value);
+
+  return (
+    <TouchableOpacity onPress={() => onSelectItemAge(item)}>
+      <View
+        style={
+          isSelectedItem
+            ? searchStyle.selectedStyleSelected
+            : searchStyle.selectedStyle
+        }
+      >
+        <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const onSelectItemAge = (item) => {
+  if (age.includes(item.value)) {
+    setAge(age.filter((value) => value !== item.value));
+  } else {
+    setAge([...age, item.value.trim()]);
+  }
+};
+
+const renderSelectAllIconAge = () => {
+  const isSelectAllAge = age.length === ageData.length;
+  return (
+    <TouchableOpacity
+      style={searchStyle.wrapSelectAll}
+      onPress={() => onSelectAllAge(!isSelectAllAge)}
+    >
+      <Text style={searchStyle.txtSelectAll}>
+        {isSelectAllAge ? `UnSelect All` : "Select All"}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+  ////////////////////////////////////////////////////
+  const handleSearch = async () => {
     navigation.navigate(SEARCH_RESULT_SCREEN);
 
-    const genderSelected = selected.filter(
-      (item) => item === "Male" || item === "Female"
-    );
-
-    const timeShiftSelected = selected.filter(
-      (item) => item === "Parttime" || item === "FullTime"
-    );
-    const abilitiesLogData = {
-      selectedItems: selected.filter(
-        (item) =>
-          !genderOptions.some((genderItem) => genderItem.value === item) &&
-          !timeShilf.some((timeShiftItem) => timeShiftItem.value === item) &&
-          !ageData.some((ageItem) => ageItem.value === item)
-      ),
-    };
-
-    const ageSelected = selected.filter((item) =>
-      ageData.some((ageItem) => ageItem.value === item)
-    );
-    console.log("Năng lực", abilitiesLogData);
-    console.log("Khu vực", location);
-    console.log("Giới tính", genderSelected);
-    console.log("timeShiftSelected", timeShiftSelected);
-    console.log("Tuổi", ageSelected);
+    try {
+      const storedToken = await AsyncStorage.getItem('tokenUser');
+  
+      if (!storedToken) {
+        console.error('User token not found');
+        return;
+      }
+  
+      // Construct the search payload
+      const searchPayload = {
+        timeShift: timeShift,
+        gender: gender,
+        age: age,
+        district: location,
+        cate: selected, 
+      };
+  
+      const response = await fetch('https://elder-care-api.monoinfinity.net/api/Carer/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${storedToken}`, 
+        },
+        body: JSON.stringify(searchPayload),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Search result:', result);
+      } else {
+        console.error('Error:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Request failed:', error.message);
+    }
   };
 
   // //////////////////////////
@@ -475,6 +604,110 @@ const Search = () => {
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIcon }}
           />
+          <MultiSelect
+            style={searchStyle.dropdown}
+            placeholderStyle={searchStyle.placeholderStyle}
+            selectedTextStyle={searchStyle.selectedTextStyle}
+            iconStyle={searchStyle.iconStyle}
+            backgroundColor={"rgba(0,0,0,0.2)"}
+            maxHeight={450}
+            data={genderOptions}
+            mode="modal"
+            containerStyle={searchStyle.ContainerStyle}
+            labelField="label"
+            valueField="value"
+            placeholder="Giới tính"
+            value={gender}
+            onChange={(item) => {
+              setGender(item);
+            }}
+            renderItem={renderItemGender}
+            renderSelectedItem={(item, unSelect) => (
+              <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                <View style={searchStyle.selectedStyle}>
+                  <Text style={searchStyle.textSelectedStyle}>
+                    {item.label}
+                  </Text>
+                  <AntDesign style={searchStyle.icon} name="home" size={20} />
+                </View>
+              </TouchableOpacity>
+            )}
+            renderLeftIcon={() => (
+              <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
+            )}
+            flatListProps={{ ListHeaderComponent: renderSelectAllIconGender }}
+          />
+          <MultiSelect
+            style={searchStyle.dropdown}
+            placeholderStyle={searchStyle.placeholderStyle}
+            selectedTextStyle={searchStyle.selectedTextStyle}
+            iconStyle={searchStyle.iconStyle}
+            backgroundColor={"rgba(0,0,0,0.2)"}
+            maxHeight={450}
+            data={timeShilf}
+            mode="modal"
+            containerStyle={searchStyle.ContainerStyle}
+            labelField="label"
+            valueField="value"
+            placeholder="Time Shift"
+            value={timeShift}
+            onChange={(item) => {
+              setTimeShift(item);
+            }}
+            renderItem={renderItemtimeShift}
+            renderSelectedItem={(item, unSelect) => (
+              <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                <View style={searchStyle.selectedStyle}>
+                  <Text style={searchStyle.textSelectedStyle}>
+                    {item.label}
+                  </Text>
+                  <AntDesign style={searchStyle.icon} name="home" size={20} />
+                </View>
+              </TouchableOpacity>
+            )}
+            renderLeftIcon={() => (
+              <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
+            )}
+            flatListProps={{
+              ListHeaderComponent: renderSelectAllIcontimeShift,
+            }}
+          />
+          <MultiSelect
+            style={searchStyle.dropdown}
+            placeholderStyle={searchStyle.placeholderStyle}
+            selectedTextStyle={searchStyle.selectedTextStyle}
+            iconStyle={searchStyle.iconStyle}
+            backgroundColor={"rgba(0,0,0,0.2)"}
+            maxHeight={450}
+            data={ageData}
+            mode="modal"
+            containerStyle={searchStyle.ContainerStyle}
+            labelField="label"
+            valueField="value"
+            placeholder="Age"
+            value={age}
+            onChange={(item) => {
+              setAge(item);
+            }}
+            renderItem={renderItemAge}
+            renderSelectedItem={(item, unSelect) => (
+              <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                <View style={searchStyle.selectedStyle}>
+                  <Text style={searchStyle.textSelectedStyle}>
+                    {item.label}
+                  </Text>
+                  <AntDesign style={searchStyle.icon} name="home" size={20} />
+                </View>
+              </TouchableOpacity>
+            )}
+            renderLeftIcon={() => (
+              <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
+            )}
+            flatListProps={{
+              ListHeaderComponent: renderSelectAllIconAge,
+            }}
+          />
+          
         </View>
       </ScrollView>
       <TouchableOpacity style={searchStyle.submitButton} onPress={handleSearch}>

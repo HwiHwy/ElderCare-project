@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import {
   FlatList,
   Image,
+  Keyboard,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -18,8 +19,10 @@ import { ReusedButton, reuse } from "../../components";
 import { COLORS, images } from "../../constants";
 import { SEARCH_SCREEN } from "../../constants/nameRoute";
 import Input from "../../components/Input";
+import { Picker } from "@react-native-picker/picker";
 
 import homeStyle from "./home.style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -61,7 +64,7 @@ export default function Home() {
         style={homeStyle.deleteButton}
         onPress={() => handleDelete(item.id)}
       >
-        <Text style={homeStyle.deleteButtonText}>Delete</Text>
+        <Feather name="trash-2" size={20} color={COLORS.white} />
       </TouchableOpacity>
     </View>
   );
@@ -76,40 +79,110 @@ export default function Home() {
     setData((prevData) => prevData.filter((item) => item.id !== id));
   };
 
-  const handleSave = () => {
-    if (data.length < 3) {
-      const newItem = {
-        id: data.length + 1,
-        CarerName: carerName,
-        Location: location,
-        Gender: gender,
-        TimeShift: timeShift,
-        Age: age,
-        img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
-        Price: parseFloat(price),
-      };
-
-      setData((prevData) => [...prevData, newItem]);
-
-      setCarerName("");
-      setLocation("");
-      setGender("");
-      setTimeShift("");
-      setAge("");
-      setPrice("");
-      <TouchableOpacity
-        style={homeStyle.deleteButton}
-        onPress={() => handleDelete(item.id)}
-      >
-        <Text style={homeStyle.deleteButtonText}>Delete</Text>
-      </TouchableOpacity>;
-    } else {
-      alert("Tối Đa Người Bạn có thể chăm sóc");
+  const handleSave = async () => {
+    // Validate input fields
+    if (
+      carerName.trim() === "" ||
+      location.trim() === "" ||
+      gender.trim() === "" ||
+      timeShift.trim() === "" ||
+      age.trim() === "" ||
+      price.trim() === ""
+    ) {
+      alert("Please fill in all the fields");
+      return;
     }
+  
+    // Additional validation for specific fields
+    if (!/^[a-zA-Z\s]*$/.test(carerName)) {
+      alert("Invalid name format. Please use only letters and spaces");
+      return;
+    }
+  
+    if (!/^[a-zA-Z\s]*$/.test(location)) {
+      alert("Invalid location format. Please use only letters and spaces");
+      return;
+    }
+  
+    if (!/^(Male|Female)$/i.test(gender)) {
+      alert("Invalid gender. Please use 'Male' or 'Female'");
+      return;
+    }
+  
+    if (!/^[a-zA-Z\s]*$/.test(timeShift)) {
+      alert("Invalid relationship format. Please use only letters and spaces");
+      return;
+    }
+  
+    const ageValue = parseInt(age, 10);
+    if (isNaN(ageValue) || ageValue < 0 || ageValue > 150) {
+      alert("Invalid age. Please enter a valid age between 0 and 150");
+      return;
+    }
+  
+    if (!/^[a-zA-Z\s]*$/.test(price)) {
+      alert("Invalid note format. Please use only letters and spaces");
+      return;
+    }
+  
+    try {
+      const storedToken = await AsyncStorage.getItem('tokenUser');
 
+      const response = await fetch('https://elder-care-api.monoinfinity.net/api/Elder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${storedToken}`, 
+        },
+        body: JSON.stringify({
+          name: carerName,
+          age: ageValue,
+          relationshiptocustomer: timeShift,
+          address: location,
+          image: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+          note: price,
+        }),
+      });
+  
+      if (response.ok) {
+        alert('Data saved successfully!');
+      } else {
+        alert('Error saving data. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An unexpected error occurred. Please try again.');
+    }
+  
+    const newItem = {
+      id: data.length + 1,
+      CarerName: carerName,
+      Location: location,
+      Gender: gender,
+      TimeShift: timeShift,
+      Age: age,
+      img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+      Price: price,
+    };
+  
+    setData((prevData) => [...prevData, newItem]);
+  
+    setCarerName("");
+    setLocation("");
+    setGender("");
+    setTimeShift("");
+    setAge("");
+    setPrice("");
+  
     setPopupVisible(false);
   };
+  
 
+  const handleInputFocus = () => {
+    Keyboard.dismiss();
+
+    navigation.navigate(SEARCH_SCREEN);
+  };
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
@@ -124,16 +197,12 @@ export default function Home() {
               <TouchableOpacity>
                 <Feather name="search" size={24} style={homeStyle.searchIcon} />
               </TouchableOpacity>
-              <View style={homeStyle.searchWrapper}>
-                <TextInput
-                  style={homeStyle.searchInput}
-                  placeholder="Tìm Kiếm"
-                  placeholderTextColor="#A9A9A9"
-                  onPressIn={() => {
-                    navigation.navigate(SEARCH_SCREEN);
-                  }}
-                />
-              </View>
+              <TouchableOpacity
+                style={homeStyle.searchInputContainer}
+                onPress={handleInputFocus}
+              >
+                <Text style={homeStyle.searchInputText}>Tìm Kiếm</Text>
+              </TouchableOpacity>
             </View>
             <ReusedButton
               text={"Thêm người già"}
@@ -150,48 +219,61 @@ export default function Home() {
         visible={isPopupVisible}
         onRequestClose={closePopup}
       >
-        <TouchableWithoutFeedback onPress={closePopup}>
+        <TouchableWithoutFeedback>
           <View style={homeStyle.popupContainer}>
             <View style={homeStyle.popupContent}>
               <Input
-               iconName="account-child-circle"
-               label="Họ và tên"
+                iconName="account-child-circle"
                 placeholder="Họ và tên"
                 value={carerName}
                 onChangeText={(text) => setCarerName(text)}
               />
               <Input
+                iconName="home-account"
                 placeholder="Địa chỉ"
                 value={location}
                 onChangeText={(text) => setLocation(text)}
               />
+              <Picker
+                style={[
+                  homeStyle.picker,
+                  { borderWidth: 1, borderColor: "#ccc" },
+                ]}
+                selectedValue={gender}
+                onValueChange={(itemValue) => setGender(itemValue)}
+                itemStyle={homeStyle.pickerItem} // Style for each item in the dropdown
+                mode="dropdown" // Set the mode to 'dropdown'
+              >
+                <Picker.Item label="Select gender" value="" />
+                <Picker.Item label="Male" value="Male" />
+                <Picker.Item label="Female" value="Female" />
+              </Picker>
+
               <Input
-                placeholder="Giới Tính"
-                value={gender}
-                onChangeText={(text) => setGender(text)}
-              />
-              <Input
+                iconName="human-male-female-child"
                 placeholder="Quan hệ với khách hàng"
                 value={timeShift}
                 onChangeText={(text) => setTimeShift(text)}
               />
               <Input
+                iconName="gender-male-female"
                 placeholder="Tuổi"
                 value={age}
                 onChangeText={(text) => setAge(text)}
                 keyboardType="numeric"
               />
               <Input
+                iconName="notebook-edit"
                 placeholder="Ghi Chú"
                 value={price}
                 onChangeText={(text) => setPrice(text)}
               />
 
-              <TouchableOpacity onPress={handleSave}>
-                <Text>Save</Text>
+              <TouchableOpacity onPress={handleSave} style={homeStyle.button}>
+                <Text style={homeStyle.buttonText}>Save</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={closePopup}>
-                <Text>Close</Text>
+              <TouchableOpacity onPress={closePopup} style={homeStyle.button}>
+                <Text style={homeStyle.buttonText}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>

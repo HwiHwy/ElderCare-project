@@ -13,50 +13,14 @@ import { ReusedButton } from "../../components";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
+import { SafeAreaView } from "react-native-web";
 
-const ElderDetail = ({ visible, onClose,carerDetails  }) => {
-  if (!visible || !carerDetails) {
-    return null;
-  }
-  const { id, CarerName, Location, Gender, TimeShift, Age, img, Price } = carerDetails;
+const ElderDetail = () => {
 
-    const navigation = useNavigation();
-    const handleConfirmation = () => {
-      navigation.navigate(CARERDETAIL_SCREEN, { carerDetails });
-      onClose();
-    };
   return (
-    <Modal transparent visible={visible} animationType="fade">
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={PopupContentStyle.popupContainer}>
-          <TouchableWithoutFeedback>
-            <View style={PopupContentStyle.popupContent}>
-              <TouchableOpacity
-                style={PopupContentStyle.closeButton}
-                onPress={onClose}
-              >
-                <Icon name="times" size={20} color={COLORS.primary} />
-              </TouchableOpacity>
-              <Text style={PopupContentStyle.popupText}>
-              Bạn phải trả thêm phí để xem toàn bộ thông tin người chăm sóc này (ID: {carerDetails.id})
-              </Text>
-              <View style={PopupContentStyle.btnWrapper}>
-              <TouchableOpacity onPress={onClose}>
-                  <View style={PopupContentStyle.btn}>
-                    <Text style={PopupContentStyle.btnText}>Hủy</Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleConfirmation}>
-                  <View style={PopupContentStyle.btnMore}>
-                    <Text style={PopupContentStyle.btnTextMore}>Đồng ý</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+    <SafeAreaView>
+      <Text>fa-area-chart</Text>
+    </SafeAreaView>
   );
 };
 

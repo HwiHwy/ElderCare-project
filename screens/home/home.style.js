@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
-import { COLORS, SIZES } from '../../constants';
+import { StyleSheet } from "react-native";
+import { COLORS, SIZES } from "../../constants";
 
 const homeStyle = StyleSheet.create({
   textStyle: {
-    fontFamily: 'your-preferred-font', 
+    fontFamily: "your-preferred-font",
     fontSize: 40,
-    fontWeight: 'bold', 
-    color: COLORS.primary, 
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: COLORS.primary,
+    textAlign: "center",
     marginTop: SIZES.large,
   },
   appBarWrapper: {
@@ -15,15 +15,15 @@ const homeStyle = StyleSheet.create({
     marginTop: SIZES.small,
   },
   logo: {
-    width: '100%', 
+    width: "100%",
     height: 210,
-    resizeMode: 'cover', 
+    resizeMode: "cover",
     marginTop: SIZES.medium,
   },
   searchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center', 
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: COLORS.white,
     borderRadius: SIZES.medium,
     marginVertical: SIZES.medium,
@@ -33,6 +33,16 @@ const homeStyle = StyleSheet.create({
     elevation: 30,
     borderRadius: SIZES.medium,
     height: 50,
+  },
+  searchInputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  searchInputText: {
+    flex: 1,
+    color: "#A9A9A9",
   },
   searchIcon: {
     marginHorizontal: SIZES.medium,
@@ -45,19 +55,18 @@ const homeStyle = StyleSheet.create({
     borderRadius: SIZES.medium,
   },
   searchInput: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     paddingHorizontal: SIZES.small,
     fontSize: 16,
   },
 
-
   popupContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    shadowColor: '#000',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -65,64 +74,64 @@ const homeStyle = StyleSheet.create({
   },
 
   popupContent: {
-    backgroundColor: '#fff', // white background
+    backgroundColor: "#fff", // white background
     padding: 20,
     borderRadius: 10,
     width: 300,
   },
   formTextInput: {
     height: 40,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderWidth: 1,
     marginBottom: 15,
     paddingHorizontal: 15,
     borderRadius: 10,
-    backgroundColor: '#f9f9f9',
-    color: '#333',
+    backgroundColor: "#f9f9f9",
+    color: "#333",
   },
 
   saveButton: {
-    backgroundColor: '#2ecc71',
+    backgroundColor: "#2ecc71",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
   },
 
   saveButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
   },
 
   closeButton: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: "#e74c3c",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
   },
 
   closeButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
   },
   card: {
     marginHorizontal: SIZES.large,
-    marginTop: SIZES.small,    
-    flexDirection: 'row',
-    alignItems: 'stretch',
+    marginTop: SIZES.small,
+    flexDirection: "row",
+    alignItems: "stretch",
     borderRadius: 12,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
     },
     shadowOpacity: 0.1,
     shadowRadius: 1,
-    elevation: 5, 
+    elevation: 5,
   },
   cardImg: {
     width: 120,
@@ -133,72 +142,99 @@ const homeStyle = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   cardTitle: {
     fontSize: 22,
-    fontWeight: '700',
-    color: '#173153',
+    fontWeight: "700",
+    color: "#173153",
     marginRight: 8,
   },
   cardAirport: {
     fontSize: 13,
-    fontWeight: '600',
-    color: '#5f697d',
+    fontWeight: "600",
+    color: "#5f697d",
   },
   cardRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginHorizontal: -8,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   cardRowItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 6,
   },
   cardRowItemText: {
     marginLeft: 4,
     fontSize: 12,
-    fontWeight: '500',
-    color: '#5f697d',
+    fontWeight: "500",
+    color: "#5f697d",
   },
   cardPrice: {
     fontSize: 13,
-    fontWeight: '500',
-    color: '#5f697d',
+    fontWeight: "500",
+    color: "#5f697d",
   },
   cardPriceValue: {
     fontSize: 21,
-    fontWeight: '700',
-    color: '#173153',
+    fontWeight: "700",
+    color: "#173153",
   },
   cardPriceCurrency: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#6f61c4',
+    fontWeight: "bold",
+    color: "#6f61c4",
   },
-
 
   deleteButton: {
-    backgroundColor: '#e74c3c',
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: COLORS.tertiary,
+    height: 50,
+    margin: 5,
+    width: 50,
+
+    borderRadius: 30,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    justifyContent: "center",
   },
-
   deleteButtonText: {
-    color: '#fff',
+    color: COLORS.white,
+    fontSize: 16,
     fontWeight: 'bold',
-    fontSize: 14,
   },
-
+  picker: {
+    
+    backgroundColor: COLORS.white,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+  },
+  pickerItem: {
+    borderColor: "#ddd",
+    borderWidth: 1,
+    fontSize: 16, 
+    color: '#333', 
+  },
+  button: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 export default homeStyle;

@@ -206,7 +206,7 @@ export default function ElderManagement() {
                       >
                         <View style={ElderManagementStyle.btnMore}>
                           <Text style={ElderManagementStyle.btnTextMore}>
-                            Xem thêm
+                            Xem thêmaaaa
                           </Text>
                         </View>
                       </TouchableOpacity>

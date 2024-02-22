@@ -144,7 +144,7 @@ const searchResultStyle = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 14,
     borderWidth: 1,
-    backgroundColor: COLORS.tertiary,
+    backgroundColor: COLORS.gray,
     borderColor: '#173153',
   },
   btnText: {
@@ -152,6 +152,7 @@ const searchResultStyle = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '600',
     color: '#fff',
+
   },
   btnWrapper:{
     flexDirection: "row",

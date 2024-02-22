@@ -95,7 +95,7 @@ export default function SearchResult() {
   const [selectedCarerDetails, setSelectedCarerDetails] = useState(null); 
 
   const handleMorePress = (carerDetails) => {
-    console.log("Clicked Xem thêm for carer:", carerDetails);
+    // console.log("Clicked Xem thêm for carer:", carerDetails);
     setSelectedCarerDetails(carerDetails);
 
     if (!idpayed.includes(carerDetails.id)) {
