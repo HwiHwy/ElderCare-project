@@ -1,7 +1,7 @@
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -20,7 +20,8 @@ import { COLORS, images } from "../../constants";
 import { SEARCH_SCREEN } from "../../constants/nameRoute";
 import Input from "../../components/Input";
 import { Picker } from "@react-native-picker/picker";
-
+import messaging from '@react-native-firebase/messaging';
+import {PermissionsAndroid} from 'react-native';
 import homeStyle from "./home.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -183,6 +184,11 @@ export default function Home() {
 
     navigation.navigate(SEARCH_SCREEN);
   };
+
+
+
+
+
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />

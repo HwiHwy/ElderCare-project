@@ -25,6 +25,7 @@
     "@react-native-community/push-notification-ios": "github:react-native-community/push-notification-ios",
     "@react-native-community/slider": "^4.5.0",
     "@react-native-firebase/app": "^18.8.0",
+    "@react-native-firebase/messaging": "^18.9.0",
     "@react-native-picker/picker": "2.4.10",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
@@ -68,7 +69,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@expo/webpack-config": "^19.0.1"
+    "@expo/webpack-config": "^19.0.1",
+    "babel-plugin-module-resolver": "^5.0.0"
   },
   "private": true
 }

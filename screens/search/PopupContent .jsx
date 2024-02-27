@@ -1,5 +1,4 @@
-// PopupContent.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -7,107 +6,88 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   StyleSheet,
-  Linking 
+  Linking,
 } from "react-native";
 import { COLORS } from "../../constants";
-import { ReusedButton } from "../../components";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
-import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
 
 const PopupContent = ({ visible, onClose, carerDetails }) => {
-  useEffect(() => {
-    if (carerDetails && carerDetails.id) {
-      console.log("id", carerDetails.id);
-    }
-  }, [carerDetails]);
-
-  if (!visible || !carerDetails) {
-    return null;
-  }
-  const { id, CarerName, Location, Gender, TimeShift, Age, img, Price } =
-    carerDetails;
-
-  console.log(carerDetails);
   const navigation = useNavigation();
-  const handleConfirmation = async () => {
+
+  useEffect(() => {
+    const handleDeepLink = async (event) => {
+      const url = event.url;
+      console.log("Deep Link URL:", url);
+
+      if (url.includes("quangttse151013.monoinfinity.net/process-payment")) {
+        const params = new URLSearchParams(url);
+        const vnp_Amount = params.get("vnp_Amount");
+        const vnp_BankCode = params.get("vnp_BankCode");
+
+        console.log("Parsed Parameters:", { vnp_Amount, vnp_BankCode });
+
+        const isPaymentSuccessful = await confirmPayment();
+
+        onClose();
+
+        if (isPaymentSuccessful) {
+         
+        }
+      }
+    };
+
+    Linking.addEventListener("url", handleDeepLink);
+
+    return () => {
+      if (Linking.removeEventListener) {
+        Linking.removeEventListener("url", handleDeepLink);
+      }
+    };
+  }, [carerDetails, navigation]);
+
+  const confirmPayment = async () => {
     try {
       const storedToken = await AsyncStorage.getItem("tokenUser");
-  
+
       if (!storedToken) {
         console.error("Token not found");
-        return;
+        return false;
       }
-  
-      const postData = {
-        figureMoney: 10000,
-        type: "Thanh toán phí xem thêm cho Carer: " + carerDetails.CarerName,
-        dateTime: "2024-02-21T17:17:56.482Z",
-      };
-  
+
       const response = await fetch(
-        "https://elder-care-api.monoinfinity.net/api/Transaction",
+        "https://elder-care-api.monoinfinity.net/process-payment-callback", 
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${storedToken}`,
           },
-          body: JSON.stringify(postData),
         }
       );
-  
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("API Response:", responseData);
-  
-        if (responseData.success) {
-          // If the first API call is successful, make the second API call
-          const linkPaymentResponse = await fetch(
-            "https://elder-care-api.monoinfinity.net/link-payment",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${storedToken}`,
-              },
-            }
-          );
-  
-          if (linkPaymentResponse.ok) {
-            const linkPaymentText = await linkPaymentResponse.text();
-            console.log("Link Payment API Response (Raw Text):", linkPaymentText);
-          
-            // Open the link in the device's browser
-            try {
-              await Linking.openURL(linkPaymentText);
-            } catch (error) {
-              console.error("Error opening URL:", error);
-            }
-          } else {
-            console.error(
-              "Link Payment API Error:",
-              linkPaymentResponse.status,
-              linkPaymentResponse.statusText
-            );
-            const errorResponse = await linkPaymentResponse.text(); 
-            console.error("Link Payment API Error Response:", errorResponse);
-          }
-        }
+
+      const responseBody = await response.json();
+      console.log("Callback Response:", responseBody);
+
+      if (responseBody.RspCode === "00") {
+        console.log("Payment confirmed successfully");
+        return true;
       } else {
-        console.error("API Error:", response.status, response.statusText);
-        const errorResponse = await response.json();
-        console.error("API Error Response:", errorResponse);
+        console.error("Payment confirmation failed:", responseBody);
+        return false;
       }
-  
-      // navigation.navigate(CARERDETAIL_SCREEN, { carerDetails });
-      onClose();
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error during payment confirmation:", error.message);
+      return false;
     }
   };
-  
+
+  if (!visible || !carerDetails) {
+    return null;
+  }
+
+  // ... (rest of your existing code)
 
   return (
     <Modal transparent visible={visible} animationType="fade">
@@ -146,7 +126,6 @@ const PopupContent = ({ visible, onClose, carerDetails }) => {
 };
 
 export default PopupContent;
-
 const PopupContentStyle = StyleSheet.create({
   popupContainer: {
     flex: 1,

@@ -13,9 +13,12 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package
-
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
+import com.google.firebase.FirebaseApp; 
 
 import java.util.List;
 
@@ -30,17 +33,19 @@ public class MainApplication extends Application implements ReactApplication {
 
       @Override
       protected List<ReactPackage> getPackages() {
-        @SuppressWarnings("UnnecessaryLocalVariable")
-        List<ReactPackage> packages = new PackageList(this).getPackages();
-        // Packages that cannot be autolinked yet can be added manually here, for example:
-        // packages.add(new MyReactNativePackage());
-                packages.add(new ReactNativePushNotificationPackage());
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    List<ReactPackage> packages = new PackageList(this).getPackages();
+    // Packages that cannot be autolinked yet can be added manually here, for example:
+    // packages.add(new MyReactNativePackage());
+    packages.add(new ReactNativePushNotificationPackage());
+    packages.add(new ReactNativeFirebaseAppPackage()); // Remove the comma here
+    packages.add(new RNFirebaseMessagingPackage());
+         packages.add(new RNFirebaseNotificationsPackage());
+             new ReactNativeFirebaseAppPackage(),
 
-         // <---- Add the Package
-
-        return packages;
-      }
-
+    return packages;
+}
+ 
       @Override
       protected String getJSMainModuleName() {
         return ".expo/.virtual-metro-entry";

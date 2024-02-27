@@ -23,7 +23,16 @@ import Booking from "./Booking";
 //tuoi, gioi tinh, uy tin, kha nang cong viec,
 //noti, 
 //lich su giao dich: ngay gio giao dich, id, noi dung, so tien, tai khoan nhan,
-
+const pushData = [
+  {
+  title: "First push",
+  message: "First push message"
+  },
+  {
+  title: "Second push",
+  message: "Second push message"
+  }
+  ]
 const idpayed = [
   1,2,3,4
 ]
@@ -35,7 +44,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
   {
@@ -45,7 +54,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
   {
@@ -55,7 +64,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
   {
@@ -65,7 +74,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
   {
@@ -75,7 +84,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
   {
@@ -85,7 +94,7 @@ const items = [
     Gender: "Name",
     TimeShift: "Part time",
     Age: 25,
-    img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
     Price: 200,
   },
 ];
@@ -133,7 +142,7 @@ export default function SearchResult() {
     extrapolate: "clamp",
   });
 
-  
+
 
   return (
     <SafeAreaView>
