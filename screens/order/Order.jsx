@@ -10,7 +10,7 @@ export default function Order({  }) {
 
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
-     
+     <Text>aaaaadwadawdwadw13aa</Text>
     </SafeAreaView>
   )
 }

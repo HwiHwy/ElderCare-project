@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,86 +9,111 @@ import {
   Linking,
 } from "react-native";
 import { COLORS } from "../../constants";
+import { ReusedButton } from "../../components";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useNavigation } from "@react-navigation/native";
+import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 const PopupContent = ({ visible, onClose, carerDetails }) => {
-  const navigation = useNavigation();
+
+  const [formEmail, setFormEmail] = useState('')
 
   useEffect(() => {
-    const handleDeepLink = async (event) => {
-      const url = event.url;
-      console.log("Deep Link URL:", url);
-
-      if (url.includes("quangttse151013.monoinfinity.net/process-payment")) {
-        const params = new URLSearchParams(url);
-        const vnp_Amount = params.get("vnp_Amount");
-        const vnp_BankCode = params.get("vnp_BankCode");
-
-        console.log("Parsed Parameters:", { vnp_Amount, vnp_BankCode });
-
-        const isPaymentSuccessful = await confirmPayment();
-
-        onClose();
-
-        if (isPaymentSuccessful) {
-         
-        }
-      }
-    };
-
-    Linking.addEventListener("url", handleDeepLink);
-
-    return () => {
-      if (Linking.removeEventListener) {
-        Linking.removeEventListener("url", handleDeepLink);
-      }
-    };
-  }, [carerDetails, navigation]);
-
-  const confirmPayment = async () => {
-    try {
-      const storedToken = await AsyncStorage.getItem("tokenUser");
-
-      if (!storedToken) {
-        console.error("Token not found");
-        return false;
-      }
-
-      const response = await fetch(
-        "https://elder-care-api.monoinfinity.net/process-payment-callback", 
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${storedToken}`,
-          },
-        }
-      );
-
-      const responseBody = await response.json();
-      console.log("Callback Response:", responseBody);
-
-      if (responseBody.RspCode === "00") {
-        console.log("Payment confirmed successfully");
-        return true;
-      } else {
-        console.error("Payment confirmation failed:", responseBody);
-        return false;
-      }
-    } catch (error) {
-      console.error("Error during payment confirmation:", error.message);
-      return false;
+    if (carerDetails && carerDetails.id) {
+      console.log("id", carerDetails.id);
     }
-  };
+  }, [carerDetails]);
 
   if (!visible || !carerDetails) {
     return null;
   }
 
-  // ... (rest of your existing code)
+  const handleConfirmation = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('tokenUser');
+      if (!storedToken) {
+        console.error("No token found. Unable to make the API call.");
+        return;
+      }
 
+      const formData = {
+        figureMoney: 50000,
+        redirectUrl: "https://sandbox.vnpayment.vn/paymentv2/Payment/Error.html?code=01",
+        dateTime: new Date().toISOString(),
+        vnp_ReturnUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+      };
+      setFormEmail(formData.figureMoney);
+      const response = await fetch("https://elder-care-api.monoinfinity.net/api/Transaction", 
+      {
+        
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${storedToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+      const responseData = await response.json();
+      console.log("Response Data:", responseData);
+
+      if (response.ok) {
+        console.log("Transaction successful!");
+
+        const paymentUrl = responseData.data;
+        console.log("Payment URL:", paymentUrl); // Log the payment URL
+
+        if (paymentUrl) {
+          Linking.openURL(paymentUrl);
+          setTimeout(() => {
+            sendEmail();
+          }, 15000);
+        }
+        onClose();
+      } else {
+        console.error("Transaction failed. Status code:", response.status);
+      }
+    } catch (error) {
+      console.error("Error while processing the transaction:", error);
+    }
+  };
+  const sendEmail = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('tokenUser');
+      if (!storedToken) {
+        console.error("No token found. Unable to send the email.");
+        return;
+      }
+  
+      const formData = {
+        to: 'ace.sworld1412@gmail.com',
+        subject: 'Transaction Confirmation',
+        body: 'Thank you for your transaction. Details: ...' + formEmail, 
+      };
+  
+      const emailResponse = await fetch("https://elder-care-api.monoinfinity.net/api/Email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${storedToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const emailResponseData = await emailResponse.text();
+      console.log("Email Response Data:", emailResponseData);
+  
+      if (emailResponse.ok) {
+        console.log("Email sent successfully!");
+      } else {
+        console.error("Email sending failed. Status code:", emailResponse.status);
+      }
+    } catch (error) {
+      console.error("Error while sending the email:", error);
+    }
+  };
+  
   return (
     <Modal transparent visible={visible} animationType="fade">
       <TouchableWithoutFeedback onPress={onClose}>

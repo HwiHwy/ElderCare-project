@@ -140,16 +140,14 @@ export default function Home() {
           age: ageValue,
           relationshiptocustomer: timeShift,
           address: location,
-          image: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+          image: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
           note: price,
         }),
       });
   
       if (response.ok) {
         alert('Data saved successfully!');
-      } else {
-        alert('Error saving data. Please try again.');
-      }
+      } 
     } catch (error) {
       console.error('Error:', error);
       alert('An unexpected error occurred. Please try again.');
@@ -162,7 +160,7 @@ export default function Home() {
       Gender: gender,
       TimeShift: timeShift,
       Age: age,
-      img: "https://scontent.fsgn8-2.fna.fbcdn.net/v/t39.30808-6/422852717_707786704761774_9014426828482786458_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=9c7eae&_nc_eui2=AeFRX-hYUgDuozeERup_a5PJYYdfkQoJS9thh1-RCglL2_DmYN7j7ixrGYhaeLx7Ssa_9xIUGiTlMYnJh-ATzH85&_nc_ohc=mL4zWGh-yFYAX9vlM46&_nc_ht=scontent.fsgn8-2.fna&oh=00_AfA1lo4t3fSi1bYLlwfYzVWMm1GUwWf0E4EaxUyZfIlpWA&oe=65D717F4",
+      img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
       Price: price,
     };
   
@@ -211,7 +209,7 @@ export default function Home() {
               </TouchableOpacity>
             </View>
             <ReusedButton
-              text={"Thêm người già"}
+              text={"Thêm người thân"}
               color={COLORS.white}
               backgroundColor={COLORS.primary}
               onPress={handleAdd}

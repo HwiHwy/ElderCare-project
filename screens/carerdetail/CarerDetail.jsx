@@ -23,6 +23,7 @@ import { ReusedButton } from "../../components";
 import { COLORS } from "../../constants";
 import { HOME_SCREEN } from "../../constants/nameRoute";
 import Booking from "../search/Booking";
+import CarerStyle from "./CarerDetail.style";
 
 const CarerDetail = ({ route, navigation }) => {
   const { carerDetails } = route.params || {};
@@ -85,38 +86,38 @@ const CarerDetail = ({ route, navigation }) => {
     setBookingVisible(false);
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={CarerStyle.container}>
       <GestureHandlerRootView>
         <GestureDetector gesture={gesture}>
-          <Animated.View style={[styles.imageContainer, animatedStyle]}>
-            <Image source={{ uri: img }} style={styles.image} />
+          <Animated.View style={[CarerStyle.imageContainer, animatedStyle]}>
+            <Image source={{ uri: img }} style={CarerStyle.image} />
             <Animated.View>
               <TouchableOpacity onPress={handleBookNow}>
-                <View style={styles.btn}>
-                  <Text style={styles.btnText}>Book now</Text>
+                <View style={CarerStyle.btn}>
+                  <Text style={CarerStyle.btnText}>Book now</Text>
                 </View>
               </TouchableOpacity>
             </Animated.View>
 
-            <View style={styles.detailsContainer}>
-              <Text style={styles.detailText}>Name: {CarerName}</Text>
-              <Text style={styles.detailText}>Location: {Location}</Text>
-              <Text style={styles.detailText}>Gender: {Gender}</Text>
-              <Text style={styles.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={styles.detailText}>Age: {Age}</Text>
-              <Text style={styles.detailText}>Price: {Price} VND</Text>
-              <Text style={styles.detailText}>Name: {CarerName}</Text>
-              <Text style={styles.detailText}>Location: {Location}</Text>
-              <Text style={styles.detailText}>Gender: {Gender}</Text>
-              <Text style={styles.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={styles.detailText}>Age: {Age}</Text>
-              <Text style={styles.detailText}>Price: {Price} VND</Text>
-              <Text style={styles.detailText}>Name: {CarerName}</Text>
-              <Text style={styles.detailText}>Location: {Location}</Text>
-              <Text style={styles.detailText}>Gender: {Gender}</Text>
-              <Text style={styles.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={styles.detailText}>Age: {Age}</Text>
-              <Text style={styles.detailText}>Price: {Price} VND</Text>
+            <View style={CarerStyle.detailsContainer}>
+              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
+              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
+              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
+              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
+              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
+              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
+              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
+              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
+              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
+              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
+              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
+              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
+              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
+              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
+              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
+              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
+              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
+              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
             </View>
           </Animated.View>
         </GestureDetector>
@@ -133,52 +134,5 @@ const CarerDetail = ({ route, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  imageContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-    position: "relative",
-  },
-  image: {
-    width: "100%",
-    height: 500,
-    borderRadius: 15  ,
-    shadowOffset: {
-      width: 1,
-      height: 50,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.41,
-  },
-  btn: {
-    backgroundColor: COLORS.primary,
-    padding: 10,
-    borderRadius: 15  ,
-    marginTop: 10,
-    marginHorizontal: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 1,
-      height: 50,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.41,
-  },
-  btnText: {
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 16,
-  },
-  detailsContainer: {
-    padding: 16,
-  },
-  detailText: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-});
 
 export default CarerDetail;

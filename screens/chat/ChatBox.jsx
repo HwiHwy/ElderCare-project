@@ -16,7 +16,7 @@ export default function ChatBox({  }) {
   }
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
-
+<Text>aaaaaa</Text>
     </SafeAreaView>
   )
 }

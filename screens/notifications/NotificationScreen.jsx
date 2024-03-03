@@ -11,8 +11,8 @@ import { StatusBar } from "expo-status-bar";
 import { AppBar, ReusedText, reuse } from "../../components";
 import { COLORS, SIZES, icons } from "../../constants";
 import styles from "./NotificationStyles";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
+
+
 const notifications = [
   {
     id: 1,
@@ -43,48 +43,8 @@ const notifications = [
     detail: "Your order #10234 has been rejected",
   },
 ];
-// const sendNotification = () => {
-//   PushNotification.localNotification({
-//     channelId: "channel-id", // You need to create a channel for Android
-//     title: "New Notification",
-//     message: "This is a test notification",
-//     largeIcon: "ic_launcher", // Replace with your app's large icon
-//     smallIcon: "ic_notification", // Replace with your app's small icon
-//   });
-// };
-
-// PushNotification.configure({
-//   onRegister: function (token) {
-//     console.log("TOKEN:", token);
-//   },
-
-//   onNotification: function (notification) {
-//     console.log("NOTIFICATION:", notification);
 
 
-//     notification.finish(PushNotificationIOS.FetchResult.NoData);
-//   },
-
-//   onAction: function (notification) {
-//     console.log("ACTION:", notification.action);
-//     console.log("NOTIFICATION:", notification);
-
-//   },
-
-//   onRegistrationError: function (err) {
-//     console.error(err.message, err);
-//   },
-
-//   permissions: {
-//     alert: true,
-//     badge: true,
-//     sound: true,
-//   },
-
-//   popInitialNotification: true,
-
-//   requestPermissions: true,
-// });
 export default function NotificationScreen({ navigation }) {
   const renderItem = ({ item }) => (
     <View style={styles.notificationForm}>
@@ -127,16 +87,6 @@ export default function NotificationScreen({ navigation }) {
         keyExtractor={(item) => item.id.toString()}
       />
       <View style={{ alignItems: "center", marginTop: 20 }}>
-        {/* <TouchableOpacity
-          onPress={sendNotification}
-          style={{
-            backgroundColor: COLORS.primary,
-            padding: 10,
-            borderRadius: 5,
-          }}
-        >
-          <Text style={{ color: COLORS.white }}>Send Notification</Text>
-        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

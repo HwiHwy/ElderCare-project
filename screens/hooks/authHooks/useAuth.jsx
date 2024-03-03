@@ -14,7 +14,7 @@ import { base64 } from "base64-js";
 import { decode, encode } from "base-64";
 const loginURL =
   "https://elder-care-api.monoinfinity.net/api/Login/loginCustomer";
-const registerURL = "https://63692ab028cd16bba716cff0.mockapi.io/news";
+const registerURL = "https://elder-care-api.monoinfinity.net/api/SignIn/signinCustomer";
 if (!global.btoa) {
   global.btoa = encode;
 }

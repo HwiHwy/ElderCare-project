@@ -66,8 +66,10 @@ export default function RegisterScreen({ navigation }) {
       confirmPassword,
       email,
       phoneNumber,
-    } = formData
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    } = formData;
+  
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  
     if (
       firstName &&
       lastName &&
@@ -80,23 +82,35 @@ export default function RegisterScreen({ navigation }) {
         Alert.alert(
           'Sai mật khẩu',
           'Bạn cần nhập đúng nhập lại mật khẩu vs mật khẩu đã điền'
-        )
+        );
       } else if (!email.match(emailPattern)) {
-        Alert.alert(
-          'Email không hợp lệ',
-          'Vui lòng nhập một địa chỉ email hợp lệ.'
-        )
+        Alert.alert('Email không hợp lệ', 'Vui lòng nhập một địa chỉ email hợp lệ.');
       } else {
-        const { confirmPassword, ...uploadData } = formData
-        await register(uploadData)
+        // Extract relevant fields from formData
+        const { confirmPassword, firstName, lastName, phoneNumber, email, password } = formData;
+  
+        // Prepare the data in the desired format
+        const uploadData = {
+          name: `${firstName} ${lastName}`,
+          email,
+          phoneNumber,
+          password,
+          bankInfo: {
+            accountNumber: "", // Add your logic to get accountNumber
+            bankName: "",     // Add your logic to get bankName
+            branch: "",        // Add your logic to get branch
+            accountName: "",    // Add your logic to get accountName
+          },
+        };
+  
+        // Call the register function with the updated data
+        await register(uploadData);
       }
     } else {
-      Alert.alert(
-        'Thiếu thông tin',
-        'Bạn cần nhập đầy đủ thông tin khi đăng kí'
-      )
+      Alert.alert('Thiếu thông tin', 'Bạn cần nhập đầy đủ thông tin khi đăng kí');
     }
-  }
+  };
+  
 
   return (
     <View behavior="position" style={styleLoginMain.container}>

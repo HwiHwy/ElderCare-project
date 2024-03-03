@@ -5,6 +5,7 @@ import {
   SELECT_LOCATION_SCREEN,
 } from '../../constants/nameRoute'
 import OrderPage from '../../screens/order/OrderPage'
+import Schedule from '../../screens/schedule/Schedule'
 
 const OrderStack = createNativeStackNavigator()
 
@@ -13,7 +14,7 @@ export default function OrderStackScreen() {
     <OrderStack.Navigator>
       <OrderStack.Screen
         name={ORDER_SCREEN}
-        component={OrderPage}
+        component={Schedule}
         options={{ headerShown: false }}
       />
 
