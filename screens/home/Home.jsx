@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   FlatList,
   Image,
   Keyboard,
@@ -20,10 +21,11 @@ import { COLORS, images } from "../../constants";
 import { SEARCH_SCREEN } from "../../constants/nameRoute";
 import Input from "../../components/Input";
 import { Picker } from "@react-native-picker/picker";
-import messaging from '@react-native-firebase/messaging';
-import {PermissionsAndroid} from 'react-native';
+import messaging from "@react-native-firebase/messaging";
+import { PermissionsAndroid } from "react-native";
 import homeStyle from "./home.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function Home() {
   const navigation = useNavigation();
@@ -93,66 +95,70 @@ export default function Home() {
       alert("Please fill in all the fields");
       return;
     }
-  
+
     // Additional validation for specific fields
     if (!/^[a-zA-Z\s]*$/.test(carerName)) {
       alert("Invalid name format. Please use only letters and spaces");
       return;
     }
-  
+
     if (!/^[a-zA-Z\s]*$/.test(location)) {
       alert("Invalid location format. Please use only letters and spaces");
       return;
     }
-  
+
     if (!/^(Male|Female)$/i.test(gender)) {
       alert("Invalid gender. Please use 'Male' or 'Female'");
       return;
     }
-  
+
     if (!/^[a-zA-Z\s]*$/.test(timeShift)) {
       alert("Invalid relationship format. Please use only letters and spaces");
       return;
     }
-  
+
     const ageValue = parseInt(age, 10);
     if (isNaN(ageValue) || ageValue < 0 || ageValue > 150) {
       alert("Invalid age. Please enter a valid age between 0 and 150");
       return;
     }
-  
+
     if (!/^[a-zA-Z\s]*$/.test(price)) {
       alert("Invalid note format. Please use only letters and spaces");
       return;
     }
-  
-    try {
-      const storedToken = await AsyncStorage.getItem('tokenUser');
 
-      const response = await fetch('https://elder-care-api.monoinfinity.net/api/Elder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${storedToken}`, 
-        },
-        body: JSON.stringify({
-          name: carerName,
-          age: ageValue,
-          relationshiptocustomer: timeShift,
-          address: location,
-          image: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-          note: price,
-        }),
-      });
-  
+    try {
+      const storedToken = await AsyncStorage.getItem("tokenUser");
+
+      const response = await fetch(
+        "https://elder-care-api.monoinfinity.net/api/Elder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${storedToken}`,
+          },
+          body: JSON.stringify({
+            name: carerName,
+            age: ageValue,
+            relationshiptocustomer: timeShift,
+            address: location,
+            image:
+              "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
+            note: price,
+          }),
+        }
+      );
+
       if (response.ok) {
-        alert('Data saved successfully!');
-      } 
+        alert("Data saved successfully!");
+      }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      console.error("Error:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
-  
+
     const newItem = {
       id: data.length + 1,
       CarerName: carerName,
@@ -163,29 +169,24 @@ export default function Home() {
       img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
       Price: price,
     };
-  
+
     setData((prevData) => [...prevData, newItem]);
-  
+
     setCarerName("");
     setLocation("");
     setGender("");
     setTimeShift("");
     setAge("");
     setPrice("");
-  
+
     setPopupVisible(false);
   };
-  
 
   const handleInputFocus = () => {
     Keyboard.dismiss();
 
     navigation.navigate(SEARCH_SCREEN);
   };
-
-
-
-
 
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
@@ -245,8 +246,8 @@ export default function Home() {
                 ]}
                 selectedValue={gender}
                 onValueChange={(itemValue) => setGender(itemValue)}
-                itemStyle={homeStyle.pickerItem} // Style for each item in the dropdown
-                mode="dropdown" // Set the mode to 'dropdown'
+                itemStyle={homeStyle.pickerItem}
+                mode="dropdown"
               >
                 <Picker.Item label="Select gender" value="" />
                 <Picker.Item label="Male" value="Male" />

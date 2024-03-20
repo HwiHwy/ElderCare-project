@@ -62,7 +62,7 @@ const PopupContent = ({ visible, onClose, carerDetails }) => {
         console.log("Transaction successful!");
 
         const paymentUrl = responseData.data;
-        console.log("Payment URL:", paymentUrl); // Log the payment URL
+        console.log("Payment URL:", paymentUrl);
 
         if (paymentUrl) {
           Linking.openURL(paymentUrl);
@@ -86,10 +86,24 @@ const PopupContent = ({ visible, onClose, carerDetails }) => {
         return;
       }
   
+      // Assuming carerDetails contains relevant information about the caregiver
+      const { id, name, email, phoneNumber } = carerDetails;
+  
       const formData = {
         to: 'ace.sworld1412@gmail.com',
         subject: 'Transaction Confirmation',
-        body: 'Thank you for your transaction. Details: ...' + formEmail, 
+        body: `Thank you for your transaction! Below are the details:
+  
+  Transaction Details:
+  - Amount: $${formEmail}
+  - Carer ID: ${id}
+  - Carer Name: ${name}
+  - Carer Email: ${email}
+  - Carer Phone Number: ${phoneNumber}
+  
+  If you have any questions or concerns, feel free to contact us.
+  
+  Best regards,`,
       };
   
       const emailResponse = await fetch("https://elder-care-api.monoinfinity.net/api/Email", {
@@ -113,6 +127,8 @@ const PopupContent = ({ visible, onClose, carerDetails }) => {
       console.error("Error while sending the email:", error);
     }
   };
+  
+  
   
   return (
     <Modal transparent visible={visible} animationType="fade">

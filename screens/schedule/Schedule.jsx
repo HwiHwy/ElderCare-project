@@ -18,7 +18,6 @@ const Schedule = ({ route, navigation }) => {
         setPickUpDate(date);
         setSelectedDate(date);
     
-        // Assume you have a function to fetch the note based on the selected date
         const noteForSelectedDate = getNoteForDate(date);
     
         const combinedDateTime = `${date} ${deliveryTime.toLocaleTimeString()}`;
@@ -27,7 +26,7 @@ const Schedule = ({ route, navigation }) => {
         setFormData({
           ...formData,
           pickUpTime: newTime,
-          note: noteForSelectedDate, // Include the note in formData
+          note: noteForSelectedDate,
         });
       };
     
@@ -41,11 +40,9 @@ const Schedule = ({ route, navigation }) => {
         setFormData({ ...formData, pickUpTime: newtime })
       }
       const getNoteForDate = (selectedDate) => {
-        // Simulating fetching the note for the selected date
-        // Replace this with your logic to retrieve the actual note
+
         const notes = {
           '2024-03-24': 'Working day',
-          // Add more entries for other dates and their corresponding notes
         };
       
         return notes[selectedDate] || 'No note available';
@@ -79,8 +76,8 @@ const Schedule = ({ route, navigation }) => {
 
       <View style={ScheduleStyle.formCalendar}>
         <Calendar
-          onDayPress={(day) => handlePickupDate(day.dateString)}
-          minDate={new Date()}
+           onDayPress={(day) => handlePickupDate(day.dateString)}
+           minDate={new Date()}
           markedDates={
             selectedDate
               ? {
@@ -122,13 +119,7 @@ const Schedule = ({ route, navigation }) => {
         </View>
       )}
 
-      <View>
-        <ReusedButton
-          text={'TIẾP TỤC'}
-          color={COLORS.white}
-          backgroundColor={COLORS.primary}
-        />
-      </View>
+
     </SafeAreaView>
   </ScrollView>
   );

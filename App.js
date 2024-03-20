@@ -49,7 +49,9 @@ export default function App() {
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
+      
       <NavigationContainer>
+        
         <Stack.Navigator initialRouteName={BOTTOM}>
           <Stack.Screen
             name={LOGIN_SCREEN}
