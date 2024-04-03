@@ -2,8 +2,16 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity } from "react-native";
 import { COLORS, SIZES } from "../../constants";
+import { useNavigation } from "@react-navigation/native";
+import { CREATE_CONTRACT_FORM_SCREEN } from "../../constants/nameRoute";
 
-const Booking = ({ visible, onClose, onBookNow }) => {
+const Booking = ({ visible, onClose, onBookNow,carerDetails  }) => {
+  const navigation = useNavigation();
+
+  const handleBookNow = () => {
+    onBookNow();
+    navigation.navigate(CREATE_CONTRACT_FORM_SCREEN, { carerId: carerDetails.carerId });
+  };
   return (
     <Modal
       transparent={true}
@@ -15,15 +23,15 @@ const Booking = ({ visible, onClose, onBookNow }) => {
         <View
           style={{
             backgroundColor: COLORS.white,
+            height:300,
             padding: 20,
             borderRadius: 10,
-            elevation: 5,
+            elevation: 50,
           }}
         >
-          <Text>Thanh toán</Text>
-          <TouchableOpacity onPress={onBookNow}>
+          <TouchableOpacity onPress={handleBookNow}>
             <Text style={{ color: COLORS.primary, marginTop: 10 }}>
-              Confirm Booking
+                Lập hợp đồng với người chăm sóc này
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onClose}>

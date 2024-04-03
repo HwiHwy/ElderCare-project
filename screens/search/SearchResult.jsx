@@ -13,16 +13,12 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 import FontAwesome from "react-native-vector-icons/FontAwesome5";
 import { COLORS, SIZES, images } from "../../constants";
 import { AppBar, ReusedText, reuse } from "../../components";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { CARERDETAIL_SCREEN, SEARCH_SCREEN } from "../../constants/nameRoute";
 import searchResultStyle from "./searchResult.style";
 import PopupContent from "./PopupContent ";
 import Booking from "./Booking";
 
-//id, CarerName,Location,Gender,TimeShift,Age,img,Price
-//tuoi, gioi tinh, uy tin, kha nang cong viec,
-//noti, 
-//lich su giao dich: ngay gio giao dich, id, noi dung, so tien, tai khoan nhan,
 const pushData = [
   {
   title: "First push",
@@ -36,83 +32,22 @@ const pushData = [
 const idpayed = [
   1,2,3,4
 ]
-const items = [
-  {
-    id: 1,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-  {
-    id: 2,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-  {
-    id: 3,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-  {
-    id: 4,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-  {
-    id: 5,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-  {
-    id: 6,
-    CarerName: "Carer A",
-    Location: "Thu Duc",
-    Gender: "Name",
-    TimeShift: "Part time",
-    Age: 25,
-    img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
-    Price: 200,
-  },
-];
 
 export default function SearchResult() {
+  
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [selectedCarerDetails, setSelectedCarerDetails] = useState(null); 
-
+  const route = useRoute();
+  const searchData = route.params?.searchData || []; 
   const handleMorePress = (carerDetails) => {
-    // console.log("Clicked Xem thêm for carer:", carerDetails);
     setSelectedCarerDetails(carerDetails);
 
-    if (!idpayed.includes(carerDetails.id)) {
+    if (!idpayed.includes(carerDetails.carerId)) {
       setPopupVisible(true);
 
     } else {
       setPopupVisible(false);
-      navigation.navigate(CARERDETAIL_SCREEN, { carerDetails });
+      navigation.navigate(CARERDETAIL_SCREEN, { carerDetails});
 
     }
   };
@@ -197,19 +132,19 @@ export default function SearchResult() {
         )}
         scrollEventThrottle={1}
       >
-        {items.map(
+        {searchData.map(
           (
-            { id, CarerName, Location, Gender, TimeShift, Age, img, Price },
+            { carerId, name, address, gender, age, image, email,phone },
             index
           ) => (
             <View key={index} style={{ opacity: 1 }}>
               <TouchableOpacity onPress={() => {}}>
                 <View style={searchResultStyle.card}>
-                <TouchableOpacity  onPress={() => handleMorePress({ id, CarerName, Location, Gender, TimeShift, Age, img, Price })}>
+                <TouchableOpacity  onPress={() => handleMorePress({ carerId, name, address, gender, age, image, email,phone })}>
                 <Image
                     alt=""
                     resizeMode="cover"
-                    source={{ uri: img }}
+                    source={{ uri: image || 'https://cdn4.iconfinder.com/data/icons/professions-1-2/151/3-1024.png' }}
                     style={searchResultStyle.cardImg}
                   />
                 </TouchableOpacity>
@@ -219,11 +154,11 @@ export default function SearchResult() {
                   <View style={searchResultStyle.cardBody}>
                     <Text>
                       <Text style={searchResultStyle.cardTitle}>
-                        {CarerName} {id}
+                        {name} 
                       </Text>{" "}
                       <Text style={searchResultStyle.cardAirport}>
                         Vị trí:
-                        {Location}
+                        {address}
                       </Text>
                     </Text>
 
@@ -236,7 +171,7 @@ export default function SearchResult() {
                         />
 
                         <Text style={searchResultStyle.cardRowItemText}>
-                          {Gender}
+                          {gender}
                         </Text>
                       </View>
 
@@ -248,11 +183,11 @@ export default function SearchResult() {
                         />
 
                         <Text style={searchResultStyle.cardRowItemText}>
-                          {TimeShift}
+                          {name}
                         </Text>
                       </View>
                     </View>
-
+{/* 
                     <Text style={searchResultStyle.cardPrice}>
                       <Text>Giá thuê</Text>
 
@@ -266,7 +201,7 @@ export default function SearchResult() {
                       <Text style={searchResultStyle.cardPriceCurrency}>
                         VND
                       </Text>
-                    </Text>
+                    </Text> */}
                     <View style={searchResultStyle.btnWrapper}>
                       <TouchableOpacity onPress={() => {}}>
                         <View style={searchResultStyle.btn}>
@@ -275,7 +210,7 @@ export default function SearchResult() {
                           </Text>
                         </View>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => handleMorePress({ id, CarerName, Location, Gender, TimeShift, Age, img, Price })}>
+                      <TouchableOpacity onPress={() => handleMorePress({ carerId, name, address, gender, age, image, email,phone })}>
                         <View style={searchResultStyle.btnMore}>
                           <Text style={searchResultStyle.btnTextMore}>
                             Xem thêm

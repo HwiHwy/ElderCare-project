@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -27,6 +27,8 @@ import CarerStyle from "./CarerDetail.style";
 
 const CarerDetail = ({ route, navigation }) => {
   const { carerDetails } = route.params || {};
+  const [fetchedCarerDetails, setFetchedCarerDetails] = useState(null);
+
   if (!carerDetails) {
     return null;
   }
@@ -85,12 +87,59 @@ const CarerDetail = ({ route, navigation }) => {
   const handleCloseBooking = () => {
     setBookingVisible(false);
   };
+
+  const fetchCarerDetails = async (carerId) => {
+    try {
+      const response = await fetch(
+        `https://elder-care-api.monoinfinity.net/api/Carer/${carerId}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch carer details");
+      }
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching carer details:", error.message);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchCarerDetails(carerDetails.carerId)
+      .then((data) => {
+        if (data) {
+          const filteredData = Object.fromEntries(
+            Object.entries(data).filter(
+              ([key]) =>
+                key !== "reports" &&
+                key !== "status" &&
+                key !== "bankinfo" &&
+                key !== "bankinfoId" &&
+                key !== "carerId"
+            )
+          );
+          setFetchedCarerDetails(filteredData);
+        } else {
+          console.log("Failed to fetch carer details");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching carer details:", error.message);
+      });
+  }, [carerDetails.carerId]);
+
   return (
     <ScrollView style={CarerStyle.container}>
       <GestureHandlerRootView>
         <GestureDetector gesture={gesture}>
           <Animated.View style={[CarerStyle.imageContainer, animatedStyle]}>
-            <Image source={{ uri: img }} style={CarerStyle.image} />
+            <Image
+              source={{
+                uri: "https://cdn4.iconfinder.com/data/icons/professions-1-2/151/3-1024.png",
+              }}
+              style={CarerStyle.image}
+            />
             <Animated.View>
               <TouchableOpacity onPress={handleBookNow}>
                 <View style={CarerStyle.btn}>
@@ -100,24 +149,15 @@ const CarerDetail = ({ route, navigation }) => {
             </Animated.View>
 
             <View style={CarerStyle.detailsContainer}>
-              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
-              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
-              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
-              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
-              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
-              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
-              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
-              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
-              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
-              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
-              <Text style={CarerStyle.detailText}>Name: {CarerName}</Text>
-              <Text style={CarerStyle.detailText}>Location: {Location}</Text>
-              <Text style={CarerStyle.detailText}>Gender: {Gender}</Text>
-              <Text style={CarerStyle.detailText}>Time Shift: {TimeShift}</Text>
-              <Text style={CarerStyle.detailText}>Age: {Age}</Text>
-              <Text style={CarerStyle.detailText}>Price: {Price} VND</Text>
+              {fetchedCarerDetails ? (
+                Object.entries(fetchedCarerDetails).map(([key, value]) => (
+                  <Text key={key} style={CarerStyle.detailText}>
+                    {key}: {value}
+                  </Text>
+                ))
+              ) : (
+                <Text>Loading...</Text>
+              )}
             </View>
           </Animated.View>
         </GestureDetector>
@@ -125,14 +165,11 @@ const CarerDetail = ({ route, navigation }) => {
       <Booking
         visible={isBookingVisible}
         onClose={handleCloseBooking}
-        onBookNow={() => {
-          alert('Booking confirmed!');
-          handleCloseBooking(); 
-        }}
+        onBookNow={() => handleCloseBooking()}
+        carerDetails={carerDetails} 
       />
     </ScrollView>
   );
 };
-
 
 export default CarerDetail;
