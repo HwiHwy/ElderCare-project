@@ -74,51 +74,6 @@ const Schedule = ({ route, navigation }) => {
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
 
-      <View style={ScheduleStyle.formCalendar}>
-        <Calendar
-           onDayPress={(day) => handlePickupDate(day.dateString)}
-           minDate={new Date()}
-          markedDates={
-            selectedDate
-              ? {
-                  [selectedDate]: {
-                    selected: true,
-                    selectedColor: COLORS.primary,
-                  },
-                }
-              : {}
-          }
-        />
-      </View>
-
-      {selectedDate && (
-          <View style={ScheduleStyle.selectedDateInfo}>
-            <ReusedText style={ScheduleStyle.dateInfoText}>
-              Selected Date: {selectedDate}
-            </ReusedText>
-            <ReusedText style={ScheduleStyle.dateInfoText}>
-              Note: {formData.note}
-            </ReusedText>
-            {/* Add more information or components related to the selected date */}
-            {/* For example, you can add a time picker here */}
-            <TouchableOpacity onPress={() => setShowTimePicker(true)}>
-              <ReusedText style={ScheduleStyle.dateInfoText}>
-                Select Delivery Time
-              </ReusedText>
-            </TouchableOpacity>
-
-            {showTimePicker && (
-              <DateTimePicker
-                value={deliveryTime}
-                mode="time"
-                is24Hour={false}
-                display="default"
-                onChange={onChange}
-              />
-            )}
-        </View>
-      )}
-
 
     </SafeAreaView>
   </ScrollView>

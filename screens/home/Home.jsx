@@ -166,7 +166,7 @@ export default function Home() {
       Gender: gender,
       TimeShift: timeShift,
       Age: age,
-      img: "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
+      img: "",
       Price: price,
     };
 
@@ -203,7 +203,6 @@ export default function Home() {
         result.assets[0].uri
       );
       setImage(imageUrl);
-      // console.log(image_data);
     }
   };
   return (
