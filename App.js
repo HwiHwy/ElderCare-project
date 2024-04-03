@@ -38,7 +38,6 @@ export default function App() {
   const registerNoti = async () => {
     console.log("Registering for push notifications...");
     const token = await useFirebase().registerForPushNotificationsAsync()
-    console.log("tung", token);
   }
 
   useEffect(() => {
