@@ -156,7 +156,7 @@ const CarerDetail = ({ route, navigation }) => {
           handleCloseBooking(); 
           const body = `Booking ${CarerName} confirmed!`;
           sendNoti(0, body)
-          sendNoti(id, body)
+          sendNoti(0, body)
         }}
       />
     </ScrollView>
