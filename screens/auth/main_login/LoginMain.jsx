@@ -23,10 +23,10 @@ import { COLORS, SIZES, images } from '../../../constants'
 import { FORGOT_SCREEN, REGISTER_SCREEN } from '../../../constants/nameRoute'
 import useAuth from '../../hooks/authHooks/useAuth'
 import styleLoginMain from './loginmain.style'
+import useFirebase from '../../../hook/useFirebase'
 
 export default function LoginMain({ navigation }) {
   const { login, isLoginLoading } = useAuth()
-
   const [isSecureEntry, setIsSecureEntry] = useState(true)
   const [formData, setFormData] = useState({
     email: '',
@@ -53,8 +53,9 @@ export default function LoginMain({ navigation }) {
   })
 
   const handleLogin = async () => {
-    const { email, password, fcmToken } = formData;
-    // console.log('FCMToken:', fcmToken); 
+    const { email, password } = formData;
+    const fcmToken = await useFirebase().getToken();
+    console.log("fcm: ", fcmToken);
     await login({ email, password, fcmToken });
   };
   

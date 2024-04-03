@@ -25,7 +25,8 @@ import messaging from "@react-native-firebase/messaging";
 import { PermissionsAndroid } from "react-native";
 import homeStyle from "./home.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import useFirebase from "../../hook/useFirebase";
+import * as ImagePicker from "expo-image-picker";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -37,7 +38,7 @@ export default function Home() {
   const [price, setPrice] = useState("");
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [data, setData] = useState([]);
-
+  const [image, setImage] = useState(null);
   const renderItem = ({ item }) => (
     <View style={homeStyle.card}>
       <Image source={{ uri: item.img }} style={homeStyle.cardImg} />
@@ -144,8 +145,7 @@ export default function Home() {
             age: ageValue,
             relationshiptocustomer: timeShift,
             address: location,
-            image:
-              "https://i.pinimg.com/564x/ca/15/d5/ca15d5c0321d55036907e18af2d85bdc.jpg",
+            image: image,
             note: price,
           }),
         }
@@ -187,7 +187,25 @@ export default function Home() {
 
     navigation.navigate(SEARCH_SCREEN);
   };
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
+    console.log(result);
+
+    if (!result.cancelled) {
+      // setImage(result.assets[0].uri);
+      const imageUrl = await useFirebase().uploadImageFirebase(
+        result.assets[0].uri
+      );
+      setImage(imageUrl);
+      // console.log(image_data);
+    }
+  };
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
@@ -273,7 +291,11 @@ export default function Home() {
                 value={price}
                 onChangeText={(text) => setPrice(text)}
               />
-
+              <Button
+                title="Pick an image"
+                onPress={pickImage}
+                styl={{ backgroundColor: COLORS.gray }}
+              />
               <TouchableOpacity onPress={handleSave} style={homeStyle.button}>
                 <Text style={homeStyle.buttonText}>Save</Text>
               </TouchableOpacity>

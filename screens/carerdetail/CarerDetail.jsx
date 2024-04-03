@@ -24,6 +24,8 @@ import { COLORS } from "../../constants";
 import { HOME_SCREEN } from "../../constants/nameRoute";
 import Booking from "../search/Booking";
 import CarerStyle from "./CarerDetail.style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios'
 
 const CarerDetail = ({ route, navigation }) => {
   const { carerDetails } = route.params || {};
@@ -85,6 +87,30 @@ const CarerDetail = ({ route, navigation }) => {
   const handleCloseBooking = () => {
     setBookingVisible(false);
   };
+
+  const sendNoti = async (accountId, body) => {
+    try {
+      const storedData = await AsyncStorage.getItem('userData');
+      const parsedData = JSON.parse(storedData);
+      const response = await axios.post('https://elder-care-api.monoinfinity.net/api/Notification/sendToAccount', { 
+          accountId: accountId == 0 ? parsedData.Id : accountId,
+          data: {
+            title: "Booking",
+            subTitle: body,
+            body: body,
+            mutableContent: true
+          }
+       });
+      return response.data;
+    } catch (error) {
+      console.error("loi", error);
+      if (error.response) {
+        console.error(error.response.data);
+      }
+      throw error;
+    }
+  };
+
   return (
     <ScrollView style={CarerStyle.container}>
       <GestureHandlerRootView>
@@ -128,6 +154,9 @@ const CarerDetail = ({ route, navigation }) => {
         onBookNow={() => {
           alert('Booking confirmed!');
           handleCloseBooking(); 
+          const body = `Booking ${CarerName} confirmed!`;
+          sendNoti(0, body)
+          sendNoti(id, body)
         }}
       />
     </ScrollView>

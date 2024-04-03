@@ -25,8 +25,7 @@ if (!global.atob) {
 
 const loginQuery = async ({ email, password, fcmToken }) => {
   try {
-    const response = await axios.post(loginURL, { email, password, fcmToken });
-    console.log(response.data);
+    const response = await axios.post(loginURL, { email, password, deviceToken: fcmToken });
     return response.data;
   } catch (error) {
     console.error("loi", error);
