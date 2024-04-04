@@ -124,6 +124,26 @@ export default function UserProfile({ navigation }) {
 
             <AntDesign name="right" size={19} color={COLORS.gray2} />
           </Pressable>
+          <Pressable
+            style={styleProfile.nav2}
+            onPress={() => navigation.navigate(SUPPORT_SCREEN)}
+          >
+            <View style={styleProfile.nav3}>
+              <Ionicons
+                name="md-information-circle-outline"
+                size={24}
+                color={COLORS.primary}
+              />
+              <ReusedText
+                text={'Lịch sử'}
+                size={SIZES.large}
+                family={'bold'}
+                color={COLORS.primary}
+              />
+            </View>
+
+            <AntDesign name="right" size={19} color={COLORS.gray2} />
+          </Pressable>
           {/* ------------------------------------------------------------------------------------------------ */}
           <View style={styleProfile.bottomBtn}>
             <ReusedButton

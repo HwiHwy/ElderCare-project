@@ -23,7 +23,7 @@ const Booking = ({ visible, onClose, onBookNow }) => {
           <Text>Thanh toán</Text>
           <TouchableOpacity onPress={onBookNow}>
             <Text style={{ color: COLORS.primary, marginTop: 10 }}>
-              Confirm Booking
+              Kí hợp đồng với carrer này
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onClose}>

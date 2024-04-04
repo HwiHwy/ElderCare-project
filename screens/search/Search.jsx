@@ -568,7 +568,7 @@ const renderSelectAllIconAge = () => {
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIconLocation }}
           />
-
+{/* 
           <MultiSelect
             style={searchStyle.dropdownAbility}
             placeholderStyle={searchStyle.placeholderStyle}
@@ -603,7 +603,7 @@ const renderSelectAllIconAge = () => {
               <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIcon }}
-          />
+          /> */}
           <MultiSelect
             style={searchStyle.dropdown}
             placeholderStyle={searchStyle.placeholderStyle}

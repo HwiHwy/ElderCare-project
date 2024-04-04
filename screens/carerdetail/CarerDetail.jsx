@@ -21,7 +21,7 @@ import {
 } from "react-native-gesture-handler";
 import { ReusedButton } from "../../components";
 import { COLORS } from "../../constants";
-import { HOME_SCREEN } from "../../constants/nameRoute";
+import { CREATE_CONTRACT_FORM_SCREEN, HOME_SCREEN } from "../../constants/nameRoute";
 import Booking from "../search/Booking";
 import CarerStyle from "./CarerDetail.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -87,7 +87,9 @@ const CarerDetail = ({ route, navigation }) => {
   const handleCloseBooking = () => {
     setBookingVisible(false);
   };
-
+  const onSignContract =() => {
+    navigation.navigate(BASIC_SEARCH_SCREEN);
+  }
   const sendNoti = async (accountId, body) => {
     try {
       const storedData = await AsyncStorage.getItem('userData');
@@ -120,7 +122,7 @@ const CarerDetail = ({ route, navigation }) => {
             <Animated.View>
               <TouchableOpacity onPress={handleBookNow}>
                 <View style={CarerStyle.btn}>
-                  <Text style={CarerStyle.btnText}>Book now</Text>
+                  <Text style={CarerStyle.btnText}>Kí hợp đồng theo dõi công việc</Text>
                 </View>
               </TouchableOpacity>
             </Animated.View>
@@ -157,8 +159,10 @@ const CarerDetail = ({ route, navigation }) => {
           const body = `Booking ${CarerName} confirmed!`;
           sendNoti(0, body)
           sendNoti(id, body)
+          navigation.navigate(CREATE_CONTRACT_FORM_SCREEN, { carerId: id });
         }}
       />
+       
     </ScrollView>
   );
 };

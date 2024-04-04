@@ -104,7 +104,6 @@ export default function SearchResult() {
   const [selectedCarerDetails, setSelectedCarerDetails] = useState(null); 
 
   const handleMorePress = (carerDetails) => {
-    // console.log("Clicked Xem thêm for carer:", carerDetails);
     setSelectedCarerDetails(carerDetails);
 
     if (!idpayed.includes(carerDetails.id)) {
@@ -214,7 +213,7 @@ export default function SearchResult() {
                   />
                 </TouchableOpacity>
 
-                  
+                    
 
                   <View style={searchResultStyle.cardBody}>
                     <Text>
@@ -268,13 +267,13 @@ export default function SearchResult() {
                       </Text>
                     </Text>
                     <View style={searchResultStyle.btnWrapper}>
-                      <TouchableOpacity onPress={() => {}}>
+                      {/* <TouchableOpacity onPress={() => {}}>
                         <View style={searchResultStyle.btn}>
                           <Text style={searchResultStyle.btnText}>
                             Book now
                           </Text>
                         </View>
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                       <TouchableOpacity onPress={() => handleMorePress({ id, CarerName, Location, Gender, TimeShift, Age, img, Price })}>
                         <View style={searchResultStyle.btnMore}>
                           <Text style={searchResultStyle.btnTextMore}>

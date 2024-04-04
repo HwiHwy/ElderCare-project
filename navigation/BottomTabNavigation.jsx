@@ -57,7 +57,7 @@ const TabButton = (props) => {
       if (focused) {
         viewRef.current.animate({
           0: { scale: 1, rotate: "0deg" },
-          1: { scale: 2, rotate: "360deg" },
+          1: { scale: 2, rotate: "0deg" },
         });
       } else {
         viewRef.current.animate({

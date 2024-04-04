@@ -12,7 +12,9 @@ import {
   BASIC_SEARCH_SCREEN,
   CREATE_CONTRACT_FORM_SCREEN,
   CREATE_ELDER_FORM_SCREEN,
-  DETAIL_SEARCH_SCREEN
+  DETAIL_SEARCH_SCREEN,
+  CONTRACT_DETAIL_SERVICE_SCREEN,
+  VIEW_CONTRACT_SCREEN,
 } from "../../constants/nameRoute";
 import {
   Home,
@@ -27,10 +29,13 @@ import SearchResult from "../../screens/search/SearchResult";
 import CarerDetail from "../../screens/carerdetail/CarerDetail";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ElderDetail from "../../screens/home/ElderDetail";
-import CreateContract from "../../screens/search/CreateContract";
+// import CreateContract from "../../screens/search/CreateContract";
 import CreateElderForm from "../../screens/home/CreateElderForm";
 import BasicService from "../../screens/search/SearchOption/BasicService";
 import DetailServiceOption from "../../screens/search/SearchOption/DetailServiceOption";
+import ContractDetail from "../../screens/contract/ContractDetail";
+import ContractService from "../../screens/contract/ContractService";
+import ViewContract from "../../screens/contract/ViewContract";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -65,9 +70,24 @@ export default function HomeStackScreen() {
         />
         <HomeStack.Screen
           name={CREATE_CONTRACT_FORM_SCREEN}
-          component={CreateContract}
+          component={ContractDetail}
           options={{ headerShown: false }}
         />
+         <HomeStack.Screen
+          name={CONTRACT_DETAIL_SERVICE_SCREEN}
+          component={ContractService}
+          options={{ headerShown: false }}
+        />
+        <HomeStack.Screen
+          name={VIEW_CONTRACT_SCREEN}
+          component={ViewContract}
+          options={{ headerShown: false }}
+        />
+        {/* <HomeStack.Screen
+          name={CREATE_CONTRACT_FORM_SCREEN}
+          component={CreateContract}
+          options={{ headerShown: false }}
+        /> */}
         <HomeStack.Screen
           name={CREATE_ELDER_FORM_SCREEN}
           component={CreateElderForm}

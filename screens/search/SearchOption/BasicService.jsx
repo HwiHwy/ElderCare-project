@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppBar, ReusedText, reuse } from "../../../components";
 import { COLORS, SIZES } from "../../../constants";
-import { DETAIL_SEARCH_SCREEN, HOME_SCREEN, SEARCH_RESULT_SCREEN } from "../../../constants/nameRoute";
+import { DETAIL_SEARCH_SCREEN, HOME_SCREEN, SEARCH_RESULT_SCREEN, SEARCH_SCREEN } from "../../../constants/nameRoute";
 import searchStyle from "../search.style";
 
 const BasicService = () => {
@@ -70,7 +70,7 @@ const BasicService = () => {
   const handleServiceSelection = (selectedService) => {
     const updatedFormData = { ...formData, serviceDes: selectedService.name };
     console.log("Updated form data:", updatedFormData);
-    navigation.navigate(DETAIL_SEARCH_SCREEN);
+    navigation.navigate(SEARCH_SCREEN);
 
   };
   return (

@@ -9,10 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { COLORS } from "../../constants";
-import { ReusedButton } from "../../components";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
-import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
+
 import { SafeAreaView } from "react-native-web";
 
 const ElderDetail = () => {
