@@ -77,12 +77,12 @@ const fetchUserDataById = async (accountId, token) => {
 function useAuth(accountId, token) {
   const navigation = useNavigation();
   useEffect(() => {
-    console.log(
-      "useEffect triggered with accountId:",
-      accountId,
-      "and token:",
-      token
-    );
+    // console.log(
+    //   "useEffect triggered with accountId:",
+    //   accountId,
+    //   "and token:",
+    //   token
+    // );
     const fetchData = async () => {
       try {
         const userData = await fetchUserDataById(accountId, token);

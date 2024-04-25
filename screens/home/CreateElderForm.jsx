@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Button, TouchableOpacity ,SafeAreaView,Image} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
-import { COLORS } from "../../constants";
+import { COLORS, SIZES, images } from "../../constants";
 import useFirebase from "../../hook/useFirebase";
 import Input from "../../components/Input";
 import homeStyle from "./home.style";
-
+import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { AppBar, ReusedButton, ReusedText, reuse } from "../../components";
 const CreateElderForm = ({ navigation }) => {
   const [carerName, setCarerName] = useState("");
   const [location, setLocation] = useState("");
@@ -17,7 +19,7 @@ const CreateElderForm = ({ navigation }) => {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
 
-   const pickImage = async () => {
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -27,7 +29,7 @@ const CreateElderForm = ({ navigation }) => {
 
     console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       // setImage(result.assets[0].uri);
       const imageUrl = await useFirebase().uploadImageFirebase(
         result.assets[0].uri
@@ -96,67 +98,77 @@ const CreateElderForm = ({ navigation }) => {
 
     alert(JSON.stringify(newData));
 
-    // After saving data, navigate back to the Home screen
     navigation.goBack();
   };
 
   return (
-    <View style={homeStyle.container}>
-      <Input
-        iconName="account-child-circle"
-        placeholder="Họ và tên"
-        value={carerName}
-        onChangeText={(text) => setCarerName(text)}
-      />
-      <Input
-        iconName="home-account"
-        placeholder="Địa chỉ"
-        value={location}
-        onChangeText={(text) => setLocation(text)}
-      />
-      <Picker
-        style={[
-          homeStyle.picker,
-          { borderWidth: 1, borderColor: "#ccc" },
-        ]}
-        selectedValue={gender}
-        onValueChange={(itemValue) => setGender(itemValue)}
-        itemStyle={homeStyle.pickerItem}
-        mode="dropdown"
-      >
-        <Picker.Item label="Select gender" value="" />
-        <Picker.Item label="Male" value="Male" />
-        <Picker.Item label="Female" value="Female" />
-      </Picker>
+    <SafeAreaView style={reuse.containerAndroidSafeArea}>
+      <StatusBar style="auto" />
+      <View style={homeStyle.appBarWrapper}>
+        <View style={reuse.textMid("center")}>
+          <AppBar backIcon={true} onPress={() => navigation.goBack()} />
+          <ReusedText
+            text={"THÔNG TIN NGƯỜI GIÀ"}
+            color={COLORS.primary}
+            size={SIZES.xLarge}
+            family={"bold"}
+          ></ReusedText>
+        </View>
+      </View>
+      <View style={homeStyle.container}>
+        <Input
+          iconName="account-child-circle"
+          placeholder="Họ và tên"
+          value={carerName}
+          onChangeText={(text) => setCarerName(text)}
+        />
+        <Input
+          iconName="home-account"
+          placeholder="Địa chỉ"
+          value={location}
+          onChangeText={(text) => setLocation(text)}
+        />
+        <Picker
+          style={[homeStyle.picker, { borderWidth: 1, borderColor: "#ccc" }]}
+          selectedValue={gender}
+          onValueChange={(itemValue) => setGender(itemValue)}
+          itemStyle={homeStyle.pickerItem}
+          mode="dropdown"
+        >
+          <Picker.Item label="Select gender" value="" />
+          <Picker.Item label="Male" value="Male" />
+          <Picker.Item label="Female" value="Female" />
+        </Picker>
 
-      <Input
-        iconName="human-male-female-child"
-        placeholder="Quan hệ với khách hàng"
-        value={timeShift}
-        onChangeText={(text) => setTimeShift(text)}
-      />
-      <Input
-        iconName="gender-male-female"
-        placeholder="Tuổi"
-        value={age}
-        onChangeText={(text) => setAge(text)}
-        keyboardType="numeric"
-      />
-      <Input
-        iconName="notebook-edit"
-        placeholder="Ghi Chú"
-        value={price}
-        onChangeText={(text) => setPrice(text)}
-      />
-      <Button
-        title="Pick an image"
-        onPress={pickImage}
-        style={{ backgroundColor: COLORS.gray }}
-      />
-      <TouchableOpacity onPress={handleSave} style={homeStyle.button}>
-        <Text style={homeStyle.buttonText}>Save</Text>
-      </TouchableOpacity>
-    </View>
+        <Input
+          iconName="human-male-female-child"
+          placeholder="Quan hệ với khách hàng"
+          value={timeShift}
+          onChangeText={(text) => setTimeShift(text)}
+        />
+        <Input
+          iconName="gender-male-female"
+          placeholder="Tuổi"
+          value={age}
+          onChangeText={(text) => setAge(text)}
+          keyboardType="numeric"
+        />
+        <Input
+          iconName="notebook-edit"
+          placeholder="Ghi Chú"
+          value={price}
+          onChangeText={(text) => setPrice(text)}
+        />
+        <Button
+          title="Pick an image"
+          onPress={pickImage}
+          style={{ backgroundColor: COLORS.gray }}
+        />
+        <TouchableOpacity onPress={handleSave} style={homeStyle.button}>
+          <Text style={homeStyle.buttonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 

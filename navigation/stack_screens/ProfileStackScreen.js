@@ -1,7 +1,12 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import {
   ABOUT_US_SCREEN,
+  CARER_BOOKING_HISTORY_SCREEN,
+  CARER_PAID_SCREEN,
+  CARER_PAID_SCREEN_DETAIL,
   CHANGE_PASSWORD_SCREEN,
+  CONTRACT_NON_TRACKING,
+  CONTRACT_TRACKING,
   EDIT_PROFILE_SCREEN,
   NOTIFICATION_SCREEN,
   PROFILE_DETAILS_SCREEN,
@@ -16,6 +21,10 @@ import EditProfile from '../../screens/profile/EditProfile'
 import ProfileDetail from '../../screens/profile/ProfileDetail'
 import SupportPage from '../../screens/profile/SupportPage'
 import TermAndServices from '../../screens/profile/TermAndServices'
+import HistoryCarer from '../../screens/profile/HistoryCarer'
+import DetailCarerPaid from '../../screens/profile/DetailCarerPaid/DetailCarerPaid'
+import ContractNonTracking from '../../screens/contract/ContractNonTracking'
+import ContractTracking from '../../screens/contract/ContractTracking'
 
 const ProfileStack = createNativeStackNavigator()
 
@@ -62,6 +71,28 @@ export default function ProfileStackScreen() {
         component={TermAndServices}
         options={{ headerShown: false }}
       />
+      <ProfileStack.Screen
+        name={CARER_BOOKING_HISTORY_SCREEN}
+        component={HistoryCarer}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name={CARER_PAID_SCREEN_DETAIL}
+        component={DetailCarerPaid}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name={CONTRACT_NON_TRACKING}
+        component={ContractNonTracking}
+        options={{ headerShown: false }}
+      />
+       <ProfileStack.Screen
+        name={CONTRACT_TRACKING}
+        component={ContractTracking}
+        options={{ headerShown: false }}
+      />
+      
+      
       <ProfileStack.Screen name="TestScreen" component={TestScreen} />
     </ProfileStack.Navigator>
   )

@@ -4,6 +4,7 @@ import { AppBar, ReusedButton, ReusedText, reuse } from '../../components'
 import { COLORS, SIZES } from '../../constants'
 import {
   ABOUT_US_SCREEN,
+  CARER_BOOKING_HISTORY_SCREEN,
   LOGIN_MAIN,
   LOGIN_SCREEN,
   NOTIFICATION_SCREEN,
@@ -126,7 +127,7 @@ export default function UserProfile({ navigation }) {
           </Pressable>
           <Pressable
             style={styleProfile.nav2}
-            onPress={() => navigation.navigate(SUPPORT_SCREEN)}
+            onPress={() => navigation.navigate(CARER_BOOKING_HISTORY_SCREEN)}
           >
             <View style={styleProfile.nav3}>
               <Ionicons

@@ -19,7 +19,7 @@ const ChatBox = () => {
 
     console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setImage(result.assets[0].uri);
       const image_data = await useFirebase().updateImage(result.assets[0].uri, 'images')
       console.log(image_data);

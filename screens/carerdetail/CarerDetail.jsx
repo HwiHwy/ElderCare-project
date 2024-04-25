@@ -160,7 +160,7 @@ const CarerDetail = ({ route, navigation }) => {
           sendNoti(0, body)
           sendNoti(id, body)
           navigation.navigate(CREATE_CONTRACT_FORM_SCREEN, { carerId: id });
-        }}
+        }}  
       />
        
     </ScrollView>

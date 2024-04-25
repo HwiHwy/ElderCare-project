@@ -1,7 +1,7 @@
 import React from "react";
 import { AppBar, ReusedText, reuse } from "../../components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar, View, Text, StyleSheet } from "react-native";
+import { StatusBar, View, Text, StyleSheet, Linking } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { COLORS, SIZES } from "../../constants";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -25,11 +25,60 @@ const ViewContract = () => {
   const { formData } = route.params;
   
   const handleSignContract = async () => {
+    
+    try {
+      const storedToken = await AsyncStorage.getItem('tokenUser');
+      if (!storedToken) {
+        console.error("No token found. Unable to make the API call.");
+        return;
+      }
+  
+      const formData = {
+        figureMoney: 50000,
+        redirectUrl: "https://sandbox.vnpayment.vn/paymentv2/Payment/Error.html?code=01",
+        dateTime: new Date().toISOString(),
+        type: "string",
+        // vnp_ReturnUrl: 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html',
+      };
+  
+      // Assuming setFormEmail is a state setter
+      // setFormEmail(formData.figureMoney);
+  
+      const response = await fetch("https://elder-care-api.monoinfinity.net/api/Transaction?carerid=1&customerid=3", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${storedToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const responseData = await response.json();
+      console.log("Response Data:", responseData);
+  
+      if (response.ok) {
+        console.log("Transaction successful!");
+  
+        const paymentUrl = responseData.data;
+        console.log("Payment URL:", paymentUrl);
+  
+        if (paymentUrl) {
+          Linking.openURL(paymentUrl);
+          // Assuming sendEmail is defined and handles email sending
+        }
+        onClose(); // Assuming onClose function exists
+      } else {
+        console.error("Transaction failed. Status code:", response.status);
+      }
+    } catch (error) {
+      console.error("Error while processing the transaction:", error);
+    }
+  
     try {
       const token = await AsyncStorage.getItem("tokenUser");
       if (token) {
         console.log("Data to be sent:", sendData);
-
+  
         const response = await fetch(
           "https://elder-care-api.monoinfinity.net/api/Contract",
           {
@@ -38,12 +87,12 @@ const ViewContract = () => {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(sendData),
+            body: JSON.stringify(sendData), // Assuming sendData is defined
           }
         );
         if (response.ok) {
           console.log("Contract signed successfully!");
-          navigation.navigate(ORDER_SCREEN)
+          navigation.navigate(ORDER_SCREEN);
           // Handle success
         } else {
           console.error(

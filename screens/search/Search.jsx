@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import searchStyle from "./search.style";
 import { AppBar, ReusedText, reuse } from "../../components";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -22,6 +22,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Search = () => {
   const [selectedTimeshift, setSelectedTimeshift] = useState([]);
+  const route = useRoute();
+  const { formData } = route.params;
+  console.log("Received form data:", formData);
 
   const navigation = useNavigation();
   const ageData = [
@@ -568,7 +571,7 @@ const renderSelectAllIconAge = () => {
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIconLocation }}
           />
-{/* 
+
           <MultiSelect
             style={searchStyle.dropdownAbility}
             placeholderStyle={searchStyle.placeholderStyle}
@@ -603,7 +606,7 @@ const renderSelectAllIconAge = () => {
               <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIcon }}
-          /> */}
+          /> 
           <MultiSelect
             style={searchStyle.dropdown}
             placeholderStyle={searchStyle.placeholderStyle}

@@ -6,9 +6,11 @@ import {
   Image,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ELDER_DETAIL_SCREEN } from "../../constants/nameRoute";
 
 const ElderList = () => {
   const navigation = useNavigation();
@@ -66,23 +68,27 @@ const ElderList = () => {
     }
   }, [bearerToken]);
 
+  const handleCardPress = (elderId) => {
+    navigation.navigate(ELDER_DETAIL_SCREEN, { elderId });
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Image
-        source={{
-          uri: "https://files.scmagazine.com/wp-content/uploads/2022/09/091222_google_logo.jpg",
-        }}
-        style={styles.image}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.details}>Age: {item.age ? item.age : "N/A"}</Text>
-        <Text style={styles.details}>
-          Relationship to Customer: {item.relationshiptocustomer}
-        </Text>
-        <Text style={styles.details}>Address: {item.address}</Text>
+    <TouchableOpacity onPress={() => handleCardPress(item.elderlyId)}>
+      <View style={styles.itemContainer}>
+        <Image
+          source={{
+            uri: "https://files.scmagazine.com/wp-content/uploads/2022/09/091222_google_logo.jpg",
+          }}
+          style={styles.image}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.details}>
+          {item.relationshiptocustomer}
+          </Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

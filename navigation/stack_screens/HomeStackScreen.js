@@ -15,6 +15,8 @@ import {
   DETAIL_SEARCH_SCREEN,
   CONTRACT_DETAIL_SERVICE_SCREEN,
   VIEW_CONTRACT_SCREEN,
+  ORDER_SCREEN,
+  
 } from "../../constants/nameRoute";
 import {
   Home,
@@ -36,6 +38,7 @@ import DetailServiceOption from "../../screens/search/SearchOption/DetailService
 import ContractDetail from "../../screens/contract/ContractDetail";
 import ContractService from "../../screens/contract/ContractService";
 import ViewContract from "../../screens/contract/ViewContract";
+import Schedule from "../../screens/schedule/Schedule";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -121,6 +124,11 @@ export default function HomeStackScreen() {
         <HomeStack.Screen
           name={MOMO_PAYMENT_SCREEN}
           component={MomoPayment}
+          options={{ headerShown: false }}
+        />
+        <HomeStack.Screen
+          name={ORDER_SCREEN}
+          component={Schedule}
           options={{ headerShown: false }}
         />
       </HomeStack.Navigator>

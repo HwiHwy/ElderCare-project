@@ -20,7 +20,7 @@ const BasicService = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
   const formData = {
-    serviceDes: "Basic services",
+    serviceDes: "",
     timeShift: [""],
     gender: [""],
     age: [""],
@@ -70,9 +70,9 @@ const BasicService = () => {
   const handleServiceSelection = (selectedService) => {
     const updatedFormData = { ...formData, serviceDes: selectedService.name };
     console.log("Updated form data:", updatedFormData);
-    navigation.navigate(SEARCH_SCREEN);
-
+    navigation.navigate(SEARCH_SCREEN, { formData: updatedFormData });
   };
+  
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <ScrollView>

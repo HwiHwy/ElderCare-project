@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
-  Modal,
-  TouchableWithoutFeedback,
-  Picker,
   Image,
-  FlatList,
-  Keyboard,
   SafeAreaView,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ReusedButton, reuse } from "../../components";
 import { COLORS, images } from "../../constants";
-import { SEARCH_SCREEN, CREATE_ELDER_FORM_SCREEN, BASIC_SEARCH_SCREEN } from "../../constants/nameRoute"; // Import the route name
-import Input from "../../components/Input";
+import { CREATE_ELDER_FORM_SCREEN, BASIC_SEARCH_SCREEN } from "../../constants/nameRoute"; // Import the route name
 import homeStyle from "./home.style";
 import ElderList from "./ElderList";
 
@@ -31,7 +23,6 @@ export default function Home() {
   };
 
   const handleInputFocus = () => {
-    Keyboard.dismiss();
     navigation.navigate(BASIC_SEARCH_SCREEN);
   };
 
@@ -41,7 +32,7 @@ export default function Home() {
       <View style={homeStyle.appBarWrapper}>
         <Image source={images.logo2} style={homeStyle.logo} />
         <View style={homeStyle.searchContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleInputFocus}>
             <Feather name="search" size={24} style={homeStyle.searchIcon} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -58,7 +49,7 @@ export default function Home() {
           onPress={handleAdd}
         />
       </View>
-      <ElderList></ElderList>
+      <ElderList />
     </SafeAreaView>
   );
 }
