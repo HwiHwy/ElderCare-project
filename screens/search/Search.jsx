@@ -426,97 +426,117 @@ const Search = () => {
       </TouchableOpacity>
     );
   };
-/////////////////////////////////////////
-//age
-const [age, setAge] = useState([]);
-const onSelectAllAge = (isSelectAll = true) => {
-  if (isSelectAll) {
-    const selectItemAge = ageData.map((item) => item.value);
-    setAge(selectItemAge);
-  } else {
-    setAge([]);
-  }
-};
+  /////////////////////////////////////////
+  //age
+  const [age, setAge] = useState([]);
+  const onSelectAllAge = (isSelectAll = true) => {
+    if (isSelectAll) {
+      const selectItemAge = ageData.map((item) => item.value);
+      setAge(selectItemAge);
+    } else {
+      setAge([]);
+    }
+  };
 
+  const renderItemAge = (item) => {
+    const isSelectedItem = age.includes(item.value);
 
-const renderItemAge = (item) => {
-  const isSelectedItem = age.includes(item.value);
+    return (
+      <TouchableOpacity onPress={() => onSelectItemAge(item)}>
+        <View
+          style={
+            isSelectedItem
+              ? searchStyle.selectedStyleSelected
+              : searchStyle.selectedStyle
+          }
+        >
+          <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
-  return (
-    <TouchableOpacity onPress={() => onSelectItemAge(item)}>
-      <View
-        style={
-          isSelectedItem
-            ? searchStyle.selectedStyleSelected
-            : searchStyle.selectedStyle
-        }
+  const onSelectItemAge = (item) => {
+    if (age.includes(item.value)) {
+      setAge(age.filter((value) => value !== item.value));
+    } else {
+      setAge([...age, item.value.trim()]);
+    }
+  };
+
+  const renderSelectAllIconAge = () => {
+    const isSelectAllAge = age.length === ageData.length;
+    return (
+      <TouchableOpacity
+        style={searchStyle.wrapSelectAll}
+        onPress={() => onSelectAllAge(!isSelectAllAge)}
       >
-        <Text style={searchStyle.textSelectedStyle}>{item.label}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const onSelectItemAge = (item) => {
-  if (age.includes(item.value)) {
-    setAge(age.filter((value) => value !== item.value));
-  } else {
-    setAge([...age, item.value.trim()]);
-  }
-};
-
-const renderSelectAllIconAge = () => {
-  const isSelectAllAge = age.length === ageData.length;
-  return (
-    <TouchableOpacity
-      style={searchStyle.wrapSelectAll}
-      onPress={() => onSelectAllAge(!isSelectAllAge)}
-    >
-      <Text style={searchStyle.txtSelectAll}>
-        {isSelectAllAge ? `UnSelect All` : "Select All"}
-      </Text>
-    </TouchableOpacity>
-  );
-};
+        <Text style={searchStyle.txtSelectAll}>
+          {isSelectAllAge ? `UnSelect All` : "Select All"}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   ////////////////////////////////////////////////////
   const handleSearch = async () => {
-    navigation.navigate(SEARCH_RESULT_SCREEN);
-
     try {
-      const storedToken = await AsyncStorage.getItem('tokenUser');
-  
-      if (!storedToken) {
-        console.error('User token not found');
+      // Check if any of the arrays in formData are empty
+      if (
+        formData.timeShift.length === 0 ||
+        formData.gender.length === 0 ||
+        formData.age.length === 0 ||
+        formData.district.length === 0 ||
+        formData.cate.length === 0
+      ) {
+        console.error("One or more search parameters are empty");
         return;
       }
-  
+
+      // Retrieve the user's token from AsyncStorage
+      const storedToken = await AsyncStorage.getItem("tokenUser");
+
+      if (!storedToken) {
+        console.error("User token not found");
+        return;
+      }
+
       // Construct the search payload
       const searchPayload = {
-        timeShift: timeShift,
-        gender: gender,
-        age: age,
-        district: location,
-        cate: selected, 
+        serviceDes: formData.serviceDes,
+        timeShift: formData.timeShift,
+        gender: formData.gender,
+        age: formData.age,
+        district: formData.district,
+        cate: formData.cate,
       };
-  
-      const response = await fetch('https://elder-care-api.monoinfinity.net/api/Carer/search', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${storedToken}`, 
-        },
-        body: JSON.stringify(searchPayload),
-      });
-  
+
+      // Make the POST request to the API
+      const response = await fetch(
+        "https://elder-care-api.monoinfinity.net/api/Carer/search",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${storedToken}`,
+          },
+          body: JSON.stringify(searchPayload),
+        }
+      );
+
       if (response.ok) {
-        const result = await response.json();
-        console.log('Search result:', result);
+        const searchData = await response.json();
+        console.log("Search result:", searchData);
+
+        // Navigate to search result screen with the search data
+        navigation.navigate(SEARCH_RESULT_SCREEN, { searchData });
       } else {
-        console.error('Error:', response.status, response.statusText);
+        console.error("Error:", response.status, response.statusText);
+        // Handle error response as needed
       }
     } catch (error) {
-      console.error('Request failed:', error.message);
+      console.error("Request failed:", error.message);
+      // Handle error as needed
     }
   };
 
@@ -606,7 +626,7 @@ const renderSelectAllIconAge = () => {
               <AntDesign style={searchStyle.icon} name="rocket1" size={20} />
             )}
             flatListProps={{ ListHeaderComponent: renderSelectAllIcon }}
-          /> 
+          />
           <MultiSelect
             style={searchStyle.dropdown}
             placeholderStyle={searchStyle.placeholderStyle}
@@ -710,7 +730,6 @@ const renderSelectAllIconAge = () => {
               ListHeaderComponent: renderSelectAllIconAge,
             }}
           />
-          
         </View>
       </ScrollView>
       <TouchableOpacity style={searchStyle.submitButton} onPress={handleSearch}>

@@ -5,7 +5,7 @@ import { AppBar, ReusedButton, ReusedText, reuse } from "../../components";
 import { Text, TouchableOpacity, View } from "react-native";
 import { COLORS, SIZES } from "../../constants";
 
-const ContractTracking  = ({ route }) => {
+const ContractTrackingPackage  = ({ route }) => {
   const { carerId } = route.params;
   const navigation = useNavigation();
 
@@ -28,4 +28,4 @@ const ContractTracking  = ({ route }) => {
   </SafeAreaView>
   );
 };
-export default ContractTracking;
+export default ContractTrackingPackage;

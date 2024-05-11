@@ -5,7 +5,7 @@ import { AppBar, ReusedButton, ReusedText, reuse } from "../../components";
 import { Text, TouchableOpacity, View } from "react-native";
 import { COLORS, SIZES } from "../../constants";
 
-const ContractNonTracking  = ({ route }) => {
+const ContractTrackingService  = ({ route }) => {
   const { carerId } = route.params;
   const navigation = useNavigation();
 
@@ -17,15 +17,15 @@ const ContractNonTracking  = ({ route }) => {
     <View style={reuse.textMid("center")}>
       <AppBar backIcon={true} onPress={() => navigation.goBack()} />
       <ReusedText
-        text={"Hợp đồng chăm sóc"}
+        text={"Hợp đồng chăm sóc theo dõi"}
         color={COLORS.primary}
         size={SIZES.xLarge}
         family={"bold"}
       ></ReusedText>
-         <Text>ContractNonTracking Screen</Text>
+         <Text>Contract Tracking Screen</Text>
       <Text>Carer ID: {carerId}</Text>
     </View>
   </SafeAreaView>
   );
 };
-export default ContractNonTracking;
+export default ContractTrackingService;

@@ -62,7 +62,7 @@ export default function HistoryCarer() {
       <View style={styles.itemContainer}>
         <Image
           source={{
-            uri: "https://files.scmagazine.com/wp-content/uploads/2022/09/091222_google_logo.jpg",
+            uri: "https://www.hsf.co.uk/wp-content/uploads/2020/06/Telephone-Counselling.jpg",
           }}
           style={styles.image}
         />
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
-    borderRadius: 40,
+    borderRadius: 20,
     borderColor: COLORS.primary,
     borderWidth: 1,
     width: 400,

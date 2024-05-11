@@ -54,33 +54,36 @@ const useFirebase = () => {
     });
   };
 
-  const uploadImageFirebase = async (uri) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const storageRef = ref(storage, "images/" + new Date().getTime());
+  const uploadImageFirebase = (uri) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            const storageRef = ref(storage, "images/" + new Date().getTime());
 
-    const uploadTask = uploadBytesResumable(storageRef, blob);
+            const uploadTask = uploadBytesResumable(storageRef, blob);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        console.log("Upload is " + snapshot.ref);
-      },
-      (error) => {
-        // handle error
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          console.log("File available at", downloadURL);
-          return downloadURL;
-          // save record
-          //   await saveRecord(fileType, downloadURL, new Date().toISOString());
-          //   setImage("");
-          //   setVideo("");
-        });
-      }
-    );
-  };
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    console.log("Upload is " + snapshot.ref);
+                },
+                (error) => {
+                    reject(error); // Reject the promise if there's an error
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                        console.log("File available at", downloadURL);
+                        resolve(downloadURL); // Resolve the promise with the downloadURL
+                    });
+                }
+            );
+        } catch (error) {
+            reject(error); // Reject the promise if there's an error
+        }
+    });
+};
+
 
   async function registerForPushNotificationsAsync() {
     let token;

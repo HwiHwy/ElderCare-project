@@ -9,27 +9,27 @@ import {
   PriceStackScreen,
   ProfileStackScreen,
 } from "./stack_screens";
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 const Tab = createBottomTabNavigator();
 import * as Animatable from "react-native-animatable";
 
 const { height } = Dimensions.get("window");
 
 const tabBarStyle = {
-  borderRadius:40,
+  borderRadius: 40,
   height: 60,
   bottom: 0,
   left: 0,
   right: 0,
   position: "absolute",
-  backgroundColor: 'rgba(255, 255, 255, 1)',
+  backgroundColor: "rgba(255, 255, 255, 1)",
   margin: 10,
-  borderWidth: 0,  
-  borderColor: 'rgba(0, 0, 0, 0.1)',
-  
+  borderWidth: 0,
+  borderColor: "rgba(0, 0, 0, 0.1)",
+
   ...Platform.select({
     ios: {
-      shadowColor: 'black',
+      shadowColor: "black",
       shadowOffset: { width: 10, height: 20 },
       shadowOpacity: 0.2,
       shadowRadius: 400,
@@ -41,7 +41,7 @@ const tabBarStyle = {
 };
 const blurredOverlay = {
   ...StyleSheet.absoluteFill,
-  backgroundColor: 'rgba(255, 255, 255, 0.3)', 
+  backgroundColor: "rgba(255, 255, 255, 0.3)",
 };
 if (Platform.OS === "android") {
   tabBarStyle.height = height * 0.1;
@@ -100,7 +100,6 @@ const TabButton = (props) => {
 
 const BottomTabNavigation = () => {
   return (
-    
     <Tab.Navigator
       initialRouteName="Trang chủ"
       activeTintColor="blue"
@@ -113,7 +112,6 @@ const BottomTabNavigation = () => {
       scrollEnabled={true}
       tabStyle={{ backgroundColor: "lightblue" }}
       indicatorStyle={{ backgroundColor: "red" }}
-
     >
       {/* <Tab.Screen
         name="Lịch"
@@ -267,7 +265,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     justifyContent: "center",
     alignItems: "center",
-    
   },
   iconActiveBackground: {
     backgroundColor: "white",

@@ -13,17 +13,18 @@ import { reuse, AppBar } from "../../components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { CONTRACT_DETAIL_SCREEN } from "../../constants/nameRoute";
+import {
+  CARER_CONFIRM_CONTRACT_DETAIL_SCREEN,
+  CONTRACT_DETAIL_SCREEN,
+} from "../../constants/nameRoute";
 import { COLORS } from "../../constants";
 
-const Schedule = ({}) => {
+const ConfirmContractforCareer = () => {
   const [data, setData] = useState(null);
   const [token, setToken] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const navigation = useNavigation();
-  const navigateToContractDetail = (contract) => {
-    navigation.navigate(CONTRACT_DETAIL_SCREEN, { contract });
-  };
+
   useEffect(() => {
     const retrieveData = async () => {
       try {
@@ -80,7 +81,9 @@ const Schedule = ({}) => {
     }
   };
 
-  const handleStatusAction = async (contractId, status) => {};
+  const navigateToContractDetail = (contract) => {
+    navigation.navigate(CARER_CONFIRM_CONTRACT_DETAIL_SCREEN, { contract });
+  };
 
   const getStatusText = (status) => {
     switch (status) {
@@ -131,22 +134,46 @@ const Schedule = ({}) => {
     return { color, icon };
   };
 
+  const handleChangeStatus = async (contractId, newStatus) => {
+    try {
+      const response = await fetch(
+        `https://elder-care-api.monoinfinity.net/api/Contract/${contractId}/Contract?status=${newStatus}`,
+        {
+          method: "PUT", // Change the method to PUT
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Contract status updated successfully.");
+        // Optionally, you can fetch the updated contract data again
+        // to reflect the changes in the UI
+        fetchData(accountId, token);
+      } else {
+        console.error(
+          "Failed to update contract status. Status:",
+          response.status
+        );
+      }
+    } catch (error) {
+      console.error("Error updating contract status:", error);
+    }
+  };
+
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
       <View style={reuse.textMid("center")}>
         <AppBar
-          title={"HỢP ĐỒNG"}
-          // backIcon={true}
-          // onPress={() => navigation.goBack()}
+          title={"Confirm Contract"}
+          backIcon={true}
+          onPress={() => navigation.goBack()}
         />
       </View>
-      <ScrollView
-        contentContainerStyle={[
-          styles.contentContainer,
-          { paddingBottom: Dimensions.get("window").height},
-        ]}
-      >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {data &&
           data.map((contract) => (
             <TouchableOpacity
@@ -184,6 +211,12 @@ const Schedule = ({}) => {
                   Status: {getStatusText(contract.status)}
                 </Text>
               </View>
+              <TouchableOpacity
+                style={styles.changeStatusButton}
+                onPress={() => handleChangeStatus(contract.contractId, 1)}
+              >
+                <Text style={styles.changeStatusButtonText}>Change Status</Text>
+              </TouchableOpacity>
             </TouchableOpacity>
           ))}
       </ScrollView>
@@ -192,9 +225,6 @@ const Schedule = ({}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   contentContainer: {
     marginTop: 50,
   },
@@ -230,11 +260,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   contractTitle: {
-    color: COLORS.primary,
+    color: "#FFFFFF",
   },
   contractText: {
     marginBottom: 5,
   },
 });
 
-export default Schedule;
+export default ConfirmContractforCareer;

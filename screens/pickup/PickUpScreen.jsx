@@ -1,4 +1,4 @@
-import DateTimePicker from '@react-native-community/datetimepicker'
+// import DateTimePicker from '@react-native-community/datetimepicker'
 import React, { useState } from 'react'
 import {
   Alert,
@@ -17,91 +17,91 @@ import { PICKUP_SCREEN_DETAIL_QUANTITY } from '../../constants/nameRoute'
 import styles from './PickUpScreenStyles'
 
 const PickUpScreen = ({ navigation, route }) => {
-  const { id } = route.params
-  const [address, setAddress] = useState('')
-  const [pickUpDate, setPickUpDate] = useState('')
-  const [deliveryTime, setDeliveryTime] = useState(new Date())
-  const [showTimePicker, setShowTimePicker] = useState(false)
-  const [selectedDate, setSelectedDate] = useState('')
-  const [note, setNote] = useState('')
+  // const { id } = route.params
+  // const [address, setAddress] = useState('')
+  // const [pickUpDate, setPickUpDate] = useState('')
+  // const [deliveryTime, setDeliveryTime] = useState(new Date())
+  // const [showTimePicker, setShowTimePicker] = useState(false)
+  // const [selectedDate, setSelectedDate] = useState('')
+  // const [note, setNote] = useState('')
 
-  const [formData, setFormData] = useState({
-    customerId: 0,
-    storeId: id,
-    pickUpTime: '',
-    deliveryTime: '',
-    orderTime: new Date().toISOString(),
-    totalPrice: 0,
-    address: '',
-    orderDetails: [],
-  })
-  // console.log('Form Data:', formData);
+  // const [formData, setFormData] = useState({
+  //   customerId: 0,
+  //   storeId: id,
+  //   pickUpTime: '',
+  //   deliveryTime: '',
+  //   orderTime: new Date().toISOString(),
+  //   totalPrice: 0,
+  //   address: '',
+  //   orderDetails: [],
+  // })
+  // // console.log('Form Data:', formData);
 
-  const convertDateTime = (datetime) => {
-    const parts = datetime.split(' ')
-    const datePart = parts[0]
-    const timePart = parts[1]
+  // const convertDateTime = (datetime) => {
+  //   const parts = datetime.split(' ')
+  //   const datePart = parts[0]
+  //   const timePart = parts[1]
 
-    // Convert time to 24-hour format
-    let hours = parseInt(timePart.split(':')[0])
-    const minutes = parseInt(timePart.split(':')[1])
+  //   // Convert time to 24-hour format
+  //   let hours = parseInt(timePart.split(':')[0])
+  //   const minutes = parseInt(timePart.split(':')[1])
 
-    if (parts[2] === 'CH' && hours !== 12) {
-      hours += 12
-    } else if (parts[2] === 'SA' && hours === 12) {
-      hours = 0
-    }
+  //   if (parts[2] === 'CH' && hours !== 12) {
+  //     hours += 12
+  //   } else if (parts[2] === 'SA' && hours === 12) {
+  //     hours = 0
+  //   }
 
-    // Combine date and time parts
-    const combinedDateTime = new Date(`${datePart}T${hours}:${minutes}:00.000Z`)
+  //   // Combine date and time parts
+  //   const combinedDateTime = new Date(`${datePart}T${hours}:${minutes}:00.000Z`)
 
-    // Format as ISO string
-    const isoString = combinedDateTime.toISOString()
-    return isoString
-  }
+  //   // Format as ISO string
+  //   const isoString = combinedDateTime.toISOString()
+  //   return isoString
+  // }
 
-  const handleAddressChange = (text) => {
-    setFormData({ ...formData, address: text })
-  }
+  // const handleAddressChange = (text) => {
+  //   setFormData({ ...formData, address: text })
+  // }
 
-  const handlePickupDate = (date) => {
-    setPickUpDate(date)
-    setSelectedDate(date)
-    const combinedDateTime = `${date} ${deliveryTime.toLocaleTimeString()}`
-    const newtime = convertDateTime(combinedDateTime)
+  // const handlePickupDate = (date) => {
+  //   setPickUpDate(date)
+  //   setSelectedDate(date)
+  //   const combinedDateTime = `${date} ${deliveryTime.toLocaleTimeString()}`
+  //   const newtime = convertDateTime(combinedDateTime)
 
-    setFormData({ ...formData, pickUpTime: newtime })
-  }
+  //   setFormData({ ...formData, pickUpTime: newtime })
+  // }
 
-  const onChange = (event, selectedTime) => {
-    const currentTime = selectedTime || deliveryTime
-    setShowTimePicker(false)
-    setDeliveryTime(currentTime)
+  // const onChange = (event, selectedTime) => {
+  //   const currentTime = selectedTime || deliveryTime
+  //   setShowTimePicker(false)
+  //   setDeliveryTime(currentTime)
 
-    const combinedDateTime = `${pickUpDate} ${currentTime.toLocaleTimeString()}`
-    const newtime = convertDateTime(combinedDateTime)
-    setFormData({ ...formData, pickUpTime: newtime })
-  }
+  //   const combinedDateTime = `${pickUpDate} ${currentTime.toLocaleTimeString()}`
+  //   const newtime = convertDateTime(combinedDateTime)
+  //   setFormData({ ...formData, pickUpTime: newtime })
+  // }
 
-  const handleNavToDetail = () => {
-    const { address, pickUpTime } = formData
-    if (!address || !pickUpTime) {
-      Alert.alert(
-        'Thiếu thông tin',
-        'Bạn cần phải nhập đầy đủ thông tin để có thể qua bước tiếp theo'
-      )
-    } else {
-      navigation.navigate(PICKUP_SCREEN_DETAIL_QUANTITY, {
-        formData: formData,
-      })
-    }
-  }
+  // const handleNavToDetail = () => {
+  //   const { address, pickUpTime } = formData
+  //   if (!address || !pickUpTime) {
+  //     Alert.alert(
+  //       'Thiếu thông tin',
+  //       'Bạn cần phải nhập đầy đủ thông tin để có thể qua bước tiếp theo'
+  //     )
+  //   } else {
+  //     navigation.navigate(PICKUP_SCREEN_DETAIL_QUANTITY, {
+  //       formData: formData,
+  //     })
+  //   }
+  // }
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <SafeAreaView style={reuse.containerAndroidSafeArea}>
         <StatusBar style="auto" />
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        {/* <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <AppBar backIcon={true} onPress={() => navigation.goBack()} />
           <ReusedText
             text={'Thông tin lấy hàng'}
@@ -217,7 +217,7 @@ const PickUpScreen = ({ navigation, route }) => {
             backgroundColor={COLORS.primary}
             onPress={handleNavToDetail}
           />
-        </View>
+        </View> */}
       </SafeAreaView>
     </ScrollView>
   )

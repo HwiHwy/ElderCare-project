@@ -17,21 +17,39 @@ const ElderList = () => {
   const [elderData, setElderData] = useState([]);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [bearerToken, setBearerToken] = useState("");
+  const [userData, setUserData] = useState(null); // Changed
 
-  const fetchBearerToken = useCallback(async () => {
+  const fetchUserData = useCallback(async () => {
     try {
-      const token = await AsyncStorage.getItem("tokenUser");
-      if (token) {
-        setBearerToken(token);
+      const data = await AsyncStorage.getItem("userData");
+      if (data) {
+        setUserData(JSON.parse(data));
       }
     } catch (error) {
-      console.error("Error fetching bearer token:", error);
+      console.error("Error fetching user data:", error);
     }
   }, []);
 
   useEffect(() => {
-    fetchBearerToken();
-  }, [fetchBearerToken]);
+    fetchUserData();
+  }, [fetchUserData]);
+
+  useEffect(() => {
+    if (userData) {
+      const userId = userData.Id;
+      const fetchBearerToken = async () => {
+        try {
+          const token = await AsyncStorage.getItem("tokenUser");
+          if (token) {
+            setBearerToken(token);
+          }
+        } catch (error) {
+          console.error("Error fetching bearer token:", error);
+        }
+      };
+      fetchBearerToken();
+    }
+  }, [userData]);
 
   useEffect(() => {
     if (bearerToken) {
@@ -42,7 +60,7 @@ const ElderList = () => {
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://elder-care-api.monoinfinity.net/api/Elder",
+        `https://elder-care-api.monoinfinity.net/api/Elder/Customer/${userData.Id}`, // Changed
         {
           headers: {
             Authorization: `Bearer ${bearerToken}`,
@@ -66,8 +84,7 @@ const ElderList = () => {
     } finally {
       setIsDataLoading(false);
     }
-  }, [bearerToken]);
-
+  }, [bearerToken, userData]);
   const handleCardPress = (elderId) => {
     navigation.navigate(ELDER_DETAIL_SCREEN, { elderId });
   };

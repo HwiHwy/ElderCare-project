@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { COLORS, SIZES } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
-import { CONTRACT_NON_TRACKING, CONTRACT_TRACKING } from "../../../constants/nameRoute";
+import { CONTRACT_NON_TRACKING, CONTRACT_NON_TRACKING_PACKAGE, CONTRACT_NON_TRACKING_SERVICE, CONTRACT_TRACKING, CONTRACT_TRACKING_PACKAGE, CONTRACT_TRACKING_SERVICE } from "../../../constants/nameRoute";
 
 const DetailCarerPaid = ({ route }) => {
   const { carerId } = route.params;
@@ -39,12 +39,20 @@ const DetailCarerPaid = ({ route }) => {
 
   const handleOption1Press = () => {
     setShowOptionsModal(false);
-    navigation.navigate(CONTRACT_NON_TRACKING, { carerId: carerId });
+    navigation.navigate(CONTRACT_NON_TRACKING_SERVICE, { carerId: carerId });
   };
 
   const handleOption2Press = () => {
     setShowOptionsModal(false);
-    navigation.navigate(CONTRACT_TRACKING, { carerId: carerId });
+    navigation.navigate(CONTRACT_TRACKING_SERVICE, { carerId: carerId });
+  };
+  const handleOption3Press = () => {
+    setShowOptionsModal(false);
+    navigation.navigate(CONTRACT_TRACKING_PACKAGE, { carerId: carerId });
+  };
+  const handleOption4Press = () => {
+    setShowOptionsModal(false);
+    navigation.navigate(CONTRACT_NON_TRACKING_PACKAGE, { carerId: carerId });
   };
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
@@ -62,7 +70,7 @@ const DetailCarerPaid = ({ route }) => {
           <View style={styles.content}>
             <Image
               source={{
-                uri: "https://files.scmagazine.com/wp-content/uploads/2022/09/091222_google_logo.jpg",
+                uri: "https://www.hsf.co.uk/wp-content/uploads/2020/06/Telephone-Counselling.jpg",
               }}
               style={styles.image}
             />
@@ -96,10 +104,16 @@ const DetailCarerPaid = ({ route }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity style={styles.optionButton} onPress={handleOption1Press}>
-              <Text style={styles.optionText}>Hợp đồng chăm sóc thông thường</Text>
+              <Text style={styles.optionText}>Hợp đồng chăm sóc thông thường theo dịch vụ riêng lẻ</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.optionButton} onPress={handleOption2Press}>
-              <Text style={styles.optionText}>Hợp đồng chăm sóc có theo dõi</Text>
+              <Text style={styles.optionText}>Hợp đồng chăm sóc có theo dõi theo dịch vụ riêng lẻ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={handleOption3Press}>
+              <Text style={styles.optionText}>Hợp đồng chăm sóc  thông thường theo gói dịch vụ</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.optionButton} onPress={handleOption4Press}>
+              <Text style={styles.optionText}>Hợp đồng chăm sóc có theo dõi theo gói dịch vụ</Text>
             </TouchableOpacity>
           </View>
         </View>

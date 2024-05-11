@@ -2,11 +2,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import {
   ABOUT_US_SCREEN,
   CARER_BOOKING_HISTORY_SCREEN,
+  CARER_CONFIRM_CONTRACT_DETAIL_SCREEN,
+  CARER_CONFIRM_CONTRACT_SCREEN,
   CARER_PAID_SCREEN,
   CARER_PAID_SCREEN_DETAIL,
   CHANGE_PASSWORD_SCREEN,
-  CONTRACT_NON_TRACKING,
-  CONTRACT_TRACKING,
+  CONTRACT_NON_TRACKING_PACKAGE,
+  CONTRACT_NON_TRACKING_SERVICE,
+  CONTRACT_TRACKING_PACKAGE,
+  CONTRACT_TRACKING_SERVICE,
   EDIT_PROFILE_SCREEN,
   NOTIFICATION_SCREEN,
   PROFILE_DETAILS_SCREEN,
@@ -23,8 +27,13 @@ import SupportPage from '../../screens/profile/SupportPage'
 import TermAndServices from '../../screens/profile/TermAndServices'
 import HistoryCarer from '../../screens/profile/HistoryCarer'
 import DetailCarerPaid from '../../screens/profile/DetailCarerPaid/DetailCarerPaid'
-import ContractNonTracking from '../../screens/contract/ContractNonTracking'
-import ContractTracking from '../../screens/contract/ContractTracking'
+import ContractTracking from '../../screens/contract/ContractTrackingService'
+import ContractNonTrackingService from '../../screens/contract/ContractNonTrackingService'
+import ContractTrackingService from '../../screens/contract/ContractTrackingService'
+import ContractNonTrackingPackage from '../../screens/contract/ContractNonTrackingPackage'
+import ContractTrackingPackage from '../../screens/contract/ContractTrackingPackage'
+import ConfirmContractforCareer from '../../screens/profile/ConfirmContractforCareer'
+import DetailContractforCarer from '../../screens/profile/DetailContractforCarer'
 
 const ProfileStack = createNativeStackNavigator()
 
@@ -82,17 +91,35 @@ export default function ProfileStackScreen() {
         options={{ headerShown: false }}
       />
       <ProfileStack.Screen
-        name={CONTRACT_NON_TRACKING}
-        component={ContractNonTracking}
+        name={CONTRACT_NON_TRACKING_SERVICE}
+        component={ContractNonTrackingService}
         options={{ headerShown: false }}
       />
        <ProfileStack.Screen
-        name={CONTRACT_TRACKING}
-        component={ContractTracking}
+        name={CONTRACT_TRACKING_SERVICE}
+        component={ContractTrackingService}
         options={{ headerShown: false }}
       />
-      
-      
+      <ProfileStack.Screen
+        name={CONTRACT_NON_TRACKING_PACKAGE}
+        component={ContractNonTrackingPackage}
+        options={{ headerShown: false }}
+      />
+       <ProfileStack.Screen
+        name={CONTRACT_TRACKING_PACKAGE}
+        component={ContractTrackingPackage}
+        options={{ headerShown: false }}
+      />
+      <ProfileStack.Screen
+        name={CARER_CONFIRM_CONTRACT_SCREEN}
+        component={ConfirmContractforCareer}
+        options={{ headerShown: false }}
+      />
+         <ProfileStack.Screen
+        name={CARER_CONFIRM_CONTRACT_DETAIL_SCREEN}
+        component={DetailContractforCarer}
+        options={{ headerShown: false }}
+      />
       <ProfileStack.Screen name="TestScreen" component={TestScreen} />
     </ProfileStack.Navigator>
   )

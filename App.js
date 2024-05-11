@@ -26,7 +26,7 @@ import {
   VerifyPasswordScreen,
 } from './screens'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import * as Notifications from 'expo-notifications';
+// import * as Notifications from 'expo-notifications';
 import useFirebase from './hook/useFirebase';
 
 const Stack = createNativeStackNavigator()
@@ -35,26 +35,26 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
 
-  const registerNoti = async () => {
-    console.log("Registering for push notifications...");
-    const token = await useFirebase().registerForPushNotificationsAsync()
-  }
+  // const registerNoti = async () => {
+  //   console.log("Registering for push notifications...");
+  //   const token = await useFirebase().registerForPushNotificationsAsync()
+  // }
 
-  useEffect(() => {
-    registerNoti();
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log(notification);
-    });
+  // useEffect(() => {r
+  //   registerNoti();
+  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+  //     console.log(notification);
+  //   });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+  //     console.log(response);
+  //   });
 
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
+  //   return () => {
+  //     Notifications.removeNotificationSubscription(notificationListener.current);
+  //     Notifications.removeNotificationSubscription(responseListener.current);
+  //   };
+  // }, []);
   const [fontsLoaded] = useFonts({
     light: require('./assets/fonts/NunitoLight.ttf'),
     regular: require('./assets/fonts/NunitoRegular.ttf'),
@@ -72,13 +72,13 @@ export default function App() {
     return null
   }
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    }),
-  });
+  // Notifications.setNotificationHandler({
+  //   handleNotification: async () => ({
+  //     shouldShowAlert: true,
+  //     shouldPlaySound: false,
+  //     shouldSetBadge: false,
+  //   }),
+  // });
 
  
   const queryClient = new QueryClient()
