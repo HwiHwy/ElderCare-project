@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity ,SafeAreaView,Image} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
@@ -11,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { AppBar, ReusedButton, ReusedText, reuse } from "../../components";
 const CreateElderForm = ({ navigation }) => {
-  const [carerName, setCarerName] = useState("");
+  const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [gender, setGender] = useState("");
   const [timeShift, setTimeShift] = useState("");
@@ -41,7 +50,7 @@ const CreateElderForm = ({ navigation }) => {
   const handleSave = async () => {
     // Validate input fields
     if (
-      carerName.trim() === "" ||
+      name.trim() === "" ||
       location.trim() === "" ||
       gender.trim() === "" ||
       timeShift.trim() === "" ||
@@ -53,7 +62,7 @@ const CreateElderForm = ({ navigation }) => {
     }
 
     // Additional validation for specific fields
-    if (!/^[a-zA-Z\s]*$/.test(carerName)) {
+    if (!/^[a-zA-Z\s]*$/.test(name)) {
       alert("Invalid name format. Please use only letters and spaces");
       return;
     }
@@ -84,8 +93,6 @@ const CreateElderForm = ({ navigation }) => {
       return;
     }
 
-    // Save data to backend or do other actions here
-    // For now, just alert the data
     const newData = {
       carerName,
       location,
@@ -115,12 +122,12 @@ const CreateElderForm = ({ navigation }) => {
           ></ReusedText>
         </View>
       </View>
-      <View style={homeStyle.container}>
+      <View style={styles.container}>
         <Input
           iconName="account-child-circle"
           placeholder="Họ và tên"
-          value={carerName}
-          onChangeText={(text) => setCarerName(text)}
+          value={name}
+          onChangeText={(text) => setName(text)}
         />
         <Input
           iconName="home-account"
@@ -128,24 +135,46 @@ const CreateElderForm = ({ navigation }) => {
           value={location}
           onChangeText={(text) => setLocation(text)}
         />
-        <Picker
-          style={[homeStyle.picker, { borderWidth: 1, borderColor: "#ccc" }]}
-          selectedValue={gender}
-          onValueChange={(itemValue) => setGender(itemValue)}
-          itemStyle={homeStyle.pickerItem}
-          mode="dropdown"
-        >
-          <Picker.Item label="Select gender" value="" />
-          <Picker.Item label="Male" value="Male" />
-          <Picker.Item label="Female" value="Female" />
-        </Picker>
-
         <Input
           iconName="human-male-female-child"
           placeholder="Quan hệ với khách hàng"
           value={timeShift}
           onChangeText={(text) => setTimeShift(text)}
         />
+        <View style={styles.genderContainer}>
+          <TouchableOpacity
+            style={[
+              styles.genderCircle,
+              gender === "Nam" && styles.selectedGenderCircle,
+            ]}
+            onPress={() => setGender("Nam")}
+          >
+            <Text
+              style={[
+                styles.genderText,
+                gender === "Nam" && styles.selectedGenderText,
+              ]}
+            >
+              Nam
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.genderCircle,
+              gender === "Nữ" && styles.selectedGenderCircle,
+            ]}
+            onPress={() => setGender("Nữ")}
+          >
+            <Text
+              style={[
+                styles.genderText,
+                gender === "Nữ" && styles.selectedGenderText,
+              ]}
+            >
+              Nữ
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Input
           iconName="gender-male-female"
           placeholder="Tuổi"
@@ -159,11 +188,14 @@ const CreateElderForm = ({ navigation }) => {
           value={price}
           onChangeText={(text) => setPrice(text)}
         />
-        <Button
+        {/* <Button
           title="Pick an image"
           onPress={pickImage}
           style={{ backgroundColor: COLORS.gray }}
-        />
+        /> */}
+        <TouchableOpacity onPress={pickImage} style={homeStyle.button}>
+          <Text style={homeStyle.buttonText}>Pick image</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleSave} style={homeStyle.button}>
           <Text style={homeStyle.buttonText}>Save</Text>
         </TouchableOpacity>
@@ -171,5 +203,62 @@ const CreateElderForm = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: SIZES.padding,
+    backgroundColor: COLORS.white,
+    marginHorizontal: 20,
+  },
+  imagePickerButton: {
+    backgroundColor: COLORS.gray,
+    paddingVertical: SIZES.padding,
+    borderRadius: SIZES.radius,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: SIZES.padding,
+  },
+  imagePickerButtonText: {
+    color: COLORS.white,
+    ...SIZES.body3,
+  },
+  saveButton: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: SIZES.padding,
+    borderRadius: SIZES.radius,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: SIZES.padding,
+  },
+  saveButtonText: {
+    color: COLORS.white,
+    ...SIZES.body3,
+  },
+  genderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 0,
+  },
+  genderCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.transparent,
 
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  selectedGenderCircle: {
+    backgroundColor: COLORS.primary,
+  },
+  genderText: {
+    color: COLORS.primary,
+    ...SIZES.body3,
+  },
+  selectedGenderText: {
+    color: COLORS.white,
+  },
+});
 export default CreateElderForm;

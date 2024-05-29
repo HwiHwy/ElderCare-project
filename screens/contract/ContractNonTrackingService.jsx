@@ -36,6 +36,8 @@ const ContractNonTrackingService = ({ route }) => {
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState("");
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [image, setImage] = useState(null);
+const [carerServiceData, setCarerServiceData] = useState([]);
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,13 +45,14 @@ const ContractNonTrackingService = ({ route }) => {
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-        multiple: true,
       });
-
+  
       if (!result.cancelled) {
-        const imageUrl = await useFirebase().uploadImageFirebase(result.uri);
-        if (imageUrl) {
-          setImages([...images, imageUrl]);
+        console.log("Image URI:", result.uri); // Debugging URI
+        const imageUrl = await useFirebase().uploadImageFirebase(
+          result.assets[0].uri
+        );        if (imageUrl) {
+          setImages((prevImages) => [...prevImages, imageUrl]);
           console.log("Image URL:", imageUrl);
         } else {
           console.error("Failed to upload image to Firebase.");
@@ -98,7 +101,9 @@ const ContractNonTrackingService = ({ route }) => {
   }, [bearerToken]);
 
   const fetchData = useCallback(async () => {
+    setIsDataLoading(true);
     try {
+      // Fetch elder data
       const elderResponse = await fetch(
         `https://elder-care-api.monoinfinity.net/api/Elder/Customer/${userData.Id}`,
         {
@@ -107,19 +112,20 @@ const ContractNonTrackingService = ({ route }) => {
           },
         }
       );
-
+  
       if (!elderResponse.ok) {
         throw new Error(`HTTP error! Status: ${elderResponse.status}`);
       }
-
+  
       const elderData = await elderResponse.json();
-
+  
       if (!elderData || elderData.length === 0) {
         throw new Error("Empty response received for elders");
       }
-
+  
       setElderData(elderData);
-
+  
+      // Fetch service data
       const serviceResponse = await fetch(
         "https://elder-care-api.monoinfinity.net/api/Services",
         {
@@ -128,18 +134,40 @@ const ContractNonTrackingService = ({ route }) => {
           },
         }
       );
-
+  
       if (!serviceResponse.ok) {
         throw new Error(`HTTP error! Status: ${serviceResponse.status}`);
       }
-
+  
       const serviceData = await serviceResponse.json();
-
+  
       if (!serviceData || serviceData.length === 0) {
         throw new Error("Empty response received for services");
       }
-
+  
       setServiceData(serviceData);
+  
+     
+      const carerServiceResponse = await fetch(
+        `https://elder-care-api.monoinfinity.net/api/Carer/${carerId}/Services`,
+        {
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        }
+      );
+  
+      if (!carerServiceResponse.ok) {
+        throw new Error(`HTTP error! Status: ${carerServiceResponse.status}`);
+      }
+  
+      const carerServiceData = await carerServiceResponse.json();
+  
+      if (!carerServiceData || carerServiceData.length === 0) {
+        throw new Error("Empty response received for carer services");
+      }
+  
+      setCarerServiceData(carerServiceData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -249,11 +277,11 @@ const ContractNonTrackingService = ({ route }) => {
               </Text>
             </View>
           </TouchableOpacity>
-          <Text style={styles.descriptionText}>
+          {/* <Text style={styles.descriptionText}>
             {selectedService
               ? selectedService.description || "No description"
               : ""}
-          </Text>
+          </Text> */}
         </View>
         <View>
           <ReusedButton
@@ -335,7 +363,7 @@ const ContractNonTrackingService = ({ route }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <FlatList
-              data={serviceData}
+              data={carerServiceData}
               renderItem={({ item }) => (
                 <TouchableOpacity onPress={() => handleSelectService(item)}>
                   <View style={styles.itemContainer}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,54 +11,43 @@ import { StatusBar } from "expo-status-bar";
 import { AppBar, ReusedText, reuse } from "../../components";
 import { COLORS, SIZES, icons } from "../../constants";
 import styles from "./NotificationStyles";
-
-
-const notifications = [
-  {
-    id: 1,
-    icon: icons.confirm,
-    status: "Order Confirmed",
-    date: "22/06/2023 09:00 AM",
-    detail: "Your order #10234 has been confirmed",
-  },
-  {
-    id: 2,
-    icon: icons.pickup,
-    status: "Order Pick Up",
-    date: "22/06/2023 09:00 AM",
-    detail: "Your order #10234 has been picked up",
-  },
-  {
-    id: 3,
-    icon: icons.delivery,
-    status: "Order Delivered",
-    date: "22/06/2023 09:00 AM",
-    detail: "Your order #10234, all clothes have been delivered",
-  },
-  {
-    id: 4,
-    icon: icons.cancel,
-    status: "Order Canceled",
-    date: "22/06/2023 09:00 AM",
-    detail: "Your order #10234 has been rejected",
-  },
-];
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NotificationScreen({ navigation }) {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem("tokenUser");
+        const response = await axios.get('https://elder-care-api.monoinfinity.net/api/Transaction/getTransactionHistoryByCustomerId?customerId=3', {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          }
+        });
+        setTransactions(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
   const renderItem = ({ item }) => (
     <View style={styles.notificationForm}>
       <View style={styles.notificationRow}>
         <View style={styles.notificationIconContainer}>
-          <Image source={item.icon} style={styles.notificationIcon} />
+          <Image source={icons.confirm} style={styles.notificationIcon} />
         </View>
         <View style={styles.notificationRow}>
           <Text style={styles.notificationStatus}>{item.status}</Text>
-          <Text style={styles.notificationDate}> | {item.date}</Text>
+          <Text style={styles.notificationDate}> | {item.datetime}</Text>
         </View>
       </View>
       <View style={styles.notificationRow}>
-        <Text style={styles.notificationDetail}>{item.detail}</Text>
+        <Text style={styles.notificationDetail}>{item.description}</Text>
       </View>
     </View>
   );
@@ -70,7 +59,7 @@ export default function NotificationScreen({ navigation }) {
         style={{ alignItems: "center", justifyContent: "center", height: 30 }}
       >
         <AppBar
-          title={"NOTIFICATION"}
+          title={"Lịch sử giao dịch"}
           backIcon={true}
           onPress={() => navigation.goBack()}
         />
@@ -82,9 +71,9 @@ export default function NotificationScreen({ navigation }) {
         ></ReusedText> */}
       </View>
       <FlatList
-        data={notifications}
+        data={transactions}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.transactionId.toString()}
       />
       <View style={{ alignItems: "center", marginTop: 20 }}>
       </View>

@@ -1,42 +1,15 @@
 {
   "expo": {
-    "name": "ElderCare",
-    "slug": "ElderCare",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.hamperhamper.ElderCare"
-    },
-    "android": {
-      "googleServicesFile": "./google-services.json",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.hamperhamper.ElderCare"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "@react-native-firebase/app",
-      "expo-font"
-    ],
     "extra": {
       "eas": {
-        "projectId": "0eb5e7d6-d2de-42f6-865e-8a69f754fe36"
+        "projectId": "b3e70763-08d4-4b84-8cea-6a04d4beb29a"
       }
+    },
+    "android": {
+      "package": "com.hwihwyhwy.awesomeproject"
+    },
+    "ios": {
+      "bundleIdentifier": "y"
     }
   }
 }

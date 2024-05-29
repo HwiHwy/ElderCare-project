@@ -72,7 +72,6 @@ const BasicService = () => {
     console.log("Updated form data:", updatedFormData);
     navigation.navigate(SEARCH_SCREEN, { formData: updatedFormData });
   };
-  
   return (
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <ScrollView>
@@ -126,17 +125,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   submitButton: {
-    backgroundColor: COLORS.transparent,
+    backgroundColor: COLORS.primary,
     padding: 12,
-    borderRadius: 8,
-    marginTop: 16,
+    borderRadius: 30,
+    marginTop: 30,
     alignItems: "center",
     borderColor: COLORS.primary,
     borderWidth: 1,
     width: "100%",
   },
   submitButtonText: {
-    color: COLORS.gray,
+    color: COLORS.white,
     fontSize: 20,
   },
 });

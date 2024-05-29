@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { COLORS, SIZES } from "../../../constants";
 import { useNavigation } from "@react-navigation/native";
 import { CONTRACT_NON_TRACKING, CONTRACT_NON_TRACKING_PACKAGE, CONTRACT_NON_TRACKING_SERVICE, CONTRACT_TRACKING, CONTRACT_TRACKING_PACKAGE, CONTRACT_TRACKING_SERVICE } from "../../../constants/nameRoute";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DetailCarerPaid = ({ route }) => {
   const { carerId } = route.params;
@@ -16,18 +17,25 @@ const DetailCarerPaid = ({ route }) => {
   useEffect(() => {
     const fetchCarerData = async () => {
       try {
+        const storedToken = await AsyncStorage.getItem('tokenUser');
+
         const response = await fetch(
-          `https://elder-care-api.monoinfinity.net/api/Carer/${carerId}`
+          `https://elder-care-api.monoinfinity.net/api/Carer/${carerId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`, // Include token in the request headers
+            },
+          }
         );
 
         if (response.ok) {
           const data = await response.json();
           setCarerData(data);
         } else {
-          console.error("Failed to fetch carer data");
+          console.error('Failed to fetch carer data');
         }
       } catch (error) {
-        console.error("Error fetching carer data:", error);
+        console.error('Error fetching carer data:', error);
       }
     };
 

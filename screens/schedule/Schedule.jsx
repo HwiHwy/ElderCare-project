@@ -16,14 +16,16 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { CONTRACT_DETAIL_SCREEN } from "../../constants/nameRoute";
 import { COLORS } from "../../constants";
 
-const Schedule = ({}) => {
+const Schedule = () => {
   const [data, setData] = useState(null);
   const [token, setToken] = useState(null);
   const [accountId, setAccountId] = useState(null);
   const navigation = useNavigation();
+
   const navigateToContractDetail = (contract) => {
     navigation.navigate(CONTRACT_DETAIL_SCREEN, { contract });
   };
+
   useEffect(() => {
     const retrieveData = async () => {
       try {
@@ -70,17 +72,12 @@ const Schedule = ({}) => {
         const jsonData = await response.json();
         setData(jsonData);
       } else {
-        console.error(
-          "Failed to fetch contract data. Status:",
-          response.status
-        );
+        console.error("Failed to fetch contract data. Status:", response.status);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-
-  const handleStatusAction = async (contractId, status) => {};
 
   const getStatusText = (status) => {
     switch (status) {
@@ -94,6 +91,8 @@ const Schedule = ({}) => {
         return "Active";
       case 4:
         return "Expired";
+      case 5:
+        return "Terminated";
       default:
         return "Unknown";
     }
@@ -108,24 +107,28 @@ const Schedule = ({}) => {
         icon = "hourglass-half"; // Icon for Pending status
         break;
       case 1:
-        color = "#008000"; // Green for Signed
+        color = "#32CD32"; // Green for Signed
         icon = "check-circle"; // Icon for Signed status
         break;
       case 2:
-        color = "#FF0000"; // Red for Rejected
+        color = "#FF4500"; // Red for Rejected
         icon = "times-circle"; // Icon for Rejected status
         break;
       case 3:
-        color = "#0000FF";
-        icon = "check-circle";
+        color = "#32CD32"; // Green for Active
+        icon = "check-circle"; // Icon for Active status
         break;
       case 4:
-        color = "#808080";
-        icon = "hourglass-end";
+        color = "#FFA500"; // Orange for Expired
+        icon = "hourglass-end"; // Icon for Expired status
+        break;
+      case 5:
+        color = "#FF0000"; // Red for Terminated
+        icon = "exclamation-circle"; // Icon for Terminated status
         break;
       default:
-        color = "#000000";
-        icon = "question-circle";
+        color = "#000000"; // Black for Unknown status
+        icon = "question-circle"; // Icon for Unknown status
     }
 
     return { color, icon };
@@ -135,18 +138,9 @@ const Schedule = ({}) => {
     <SafeAreaView style={reuse.containerAndroidSafeArea}>
       <StatusBar style="auto" />
       <View style={reuse.textMid("center")}>
-        <AppBar
-          title={"HỢP ĐỒNG"}
-          // backIcon={true}
-          // onPress={() => navigation.goBack()}
-        />
+        <AppBar title={"HỢP ĐỒNG"} />
       </View>
-      <ScrollView
-        contentContainerStyle={[
-          styles.contentContainer,
-          { paddingBottom: Dimensions.get("window").height},
-        ]}
-      >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         {data &&
           data.map((contract) => (
             <TouchableOpacity
@@ -163,7 +157,7 @@ const Schedule = ({}) => {
                 <Icon
                   name={getStatusColor(contract.status).icon}
                   size={20}
-                  color="#FFFFFF"
+                  color={"#FFFFFF"}
                   style={styles.titleIcon}
                 />
                 <Text style={styles.contractTitle}>
@@ -197,6 +191,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: 50,
+    paddingBottom: Dimensions.get("window").height,
   },
   contractContainer: {
     marginHorizontal: 10,

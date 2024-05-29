@@ -30,7 +30,7 @@ const SupportPage = ({ navigation }) => {
         <View style={styleProfile.profileNav}>
           <Pressable style={styleProfile.nav2} onPress={handlePress}>
             <View style={styleProfile.nav3}>
-              <Ionicons name="md-call" size={24} color={COLORS.primary} />
+              <Ionicons name="call" size={24} color={COLORS.primary} />
               <ReusedText
                 text={'Liên hệ (Facebook)'}
                 size={SIZES.large}
@@ -47,7 +47,7 @@ const SupportPage = ({ navigation }) => {
           >
             <View style={styleProfile.nav3}>
               <Ionicons
-                name="md-document-text-outline"
+                name="document-text-outline"
                 size={24}
                 color={COLORS.primary}
               />

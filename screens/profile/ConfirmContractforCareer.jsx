@@ -72,7 +72,7 @@ const ConfirmContractforCareer = () => {
         setData(jsonData);
       } else {
         console.error(
-          "Failed to fetch contract data. Status:",
+          "Failed to fetch contract datass. Status:",
           response.status
         );
       }

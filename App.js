@@ -80,7 +80,8 @@ export default function App() {
   //   }),
   // });
 
- 
+  console.log("aaa");
+
   const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>

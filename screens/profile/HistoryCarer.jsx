@@ -33,22 +33,27 @@ export default function HistoryCarer() {
   useEffect(() => {
     const fetchCarerData = async () => {
       try {
-        const userData = await AsyncStorage.getItem("userData");
+        const userData = await AsyncStorage.getItem('userData');
         const userId = JSON.parse(userData).Id;
+        const storedToken = await AsyncStorage.getItem('tokenUser');
 
-        // Fetch data from API using userId
         const response = await fetch(
-          `https://elder-care-api.monoinfinity.net/api/Transaction/getApproveCarerCusByCustomerId?customerId=${userId}`
+          `https://elder-care-api.monoinfinity.net/api/Transaction/getApproveCarerCusByCustomerId?customerId=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`, // Include token in the request headers
+            },
+          }
         );
 
         if (response.ok) {
           const data = await response.json();
           setCarerData(data);
         } else {
-          console.error("Failed to fetch carer data");
+          console.error('Failed to fetch carer data');
         }
       } catch (error) {
-        console.error("Error fetching carer data:", error);
+        console.error('Error fetching carer data:', error);
       }
     };
 
