@@ -104,23 +104,23 @@ const Schedule = ({}) => {
 
     switch (status) {
       case 0:
-        color = "#FFA500"; // Orange for Pending
+        color = COLORS.primary; // Orange for Pending
         icon = "hourglass-half"; // Icon for Pending status
         break;
       case 1:
-        color = "#008000"; // Green for Signed
+        color = COLORS.primary; // Green for Signed
         icon = "check-circle"; // Icon for Signed status
         break;
       case 2:
-        color = "#FF0000"; // Red for Rejected
+        color = COLORS.primary; // Red for Rejected
         icon = "times-circle"; // Icon for Rejected status
         break;
       case 3:
-        color = "#0000FF";
+        color = COLORS.primary;
         icon = "check-circle";
         break;
       case 4:
-        color = "#808080";
+        color = COLORS.primary;
         icon = "hourglass-end";
         break;
       default:
@@ -163,7 +163,7 @@ const Schedule = ({}) => {
                 <Icon
                   name={getStatusColor(contract.status).icon}
                   size={20}
-                  color="#FFFFFF"
+                  color={"#FFFFFF"}
                   style={styles.titleIcon}
                 />
                 <Text style={styles.contractTitle}>

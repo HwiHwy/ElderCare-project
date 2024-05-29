@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Image, SafeAreaView, ScrollView, StatusBar, Text, View } from "react-native";
-import { Button } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { COLORS } from "../../constants";
@@ -28,8 +27,8 @@ const ChatBox = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} styl={{    backgroundColor: COLORS.gray,
-}} />
+      {/* <Button title="Pick an image from camera roll" onPress={pickImage} styl={{    backgroundColor: COLORS.gray,
+}} /> */}
       {image && (
         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
       )}

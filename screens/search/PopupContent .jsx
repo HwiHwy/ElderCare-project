@@ -14,7 +14,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { CARERDETAIL_SCREEN } from "../../constants/nameRoute";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import messaging from '@react-native-firebase/messaging';
 
 const PopupContent = ({ visible, onClose, carerDetails }) => {
 

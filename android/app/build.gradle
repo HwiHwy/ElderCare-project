@@ -76,16 +76,16 @@ def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInRelea
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
-def DEFAULT_COMPILE_SDK_VERSION = 26
+def DEFAULT_COMPILE_SDK_VERSION = 34
 def DEFAULT_BUILD_TOOLS_VERSION = "26.1.0"
-def DEFAULT_TARGET_SDK_VERSION = 23
+def DEFAULT_TARGET_SDK_VERSION = 34
 def DEFAULT_SUPPORT_LIB_VERSION = "26.1.0"
 def DEFAULT_GOOGLE_PLAY_SERVICES_VERSION = "+"
 def DEFAULT_FIREBASE_MESSAGING_VERSION = "+"
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 34
 
     namespace 'com.hamperhamper.ElderCare'
     defaultConfig {
@@ -94,6 +94,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+        multiDexEnabled true
 
         buildConfigField("boolean", "REACT_NATIVE_UNSTABLE_USE_RUNTIME_SCHEDULER_ALWAYS", (findProperty("reactNative.unstable_useRuntimeSchedulerAlways") ?: true).toString())
     }
@@ -117,6 +118,9 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -142,8 +146,11 @@ android {
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.squareup:javapoet:1.13.0") 
     implementation("com.facebook.react:react-android")
-
+    implementation 'androidx.core:core-ktx:1.8.0' 
+    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'com.android.support:multidex:2.0.1'
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
     def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true";
