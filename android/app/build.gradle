@@ -96,7 +96,13 @@ android {
     namespace = "com.hamperhamper.ElderCare"
     compileSdkVersion 34
 
+<<<<<<< HEAD
     namespace 'com.hwihwyhwy.awesomeproject'
+=======
+    compileSdkVersion 34
+
+    namespace 'com.hamperhamper.ElderCare'
+>>>>>>> 27fec7bd75f479979b2389be794758b7bf56e3d3
     defaultConfig {
         applicationId 'com.hwihwyhwy.awesomeproject'
         minSdkVersion rootProject.ext.minSdkVersion
@@ -130,6 +136,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+<<<<<<< HEAD
     
     lintOptions {
         abortOnError false
@@ -137,6 +144,11 @@ android {
      buildFeatures {
        viewBinding true
    }
+=======
+    lintOptions {
+        abortOnError false
+    }
+>>>>>>> 27fec7bd75f479979b2389be794758b7bf56e3d3
 }
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`
@@ -163,7 +175,11 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.squareup:javapoet:1.13.0") 
     implementation("com.facebook.react:react-android")
+<<<<<<< HEAD
     implementation "androidx.core:core-ktx:1.8.0"
+=======
+    implementation 'androidx.core:core-ktx:1.8.0' 
+>>>>>>> 27fec7bd75f479979b2389be794758b7bf56e3d3
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.android.support:multidex:2.0.1'
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";

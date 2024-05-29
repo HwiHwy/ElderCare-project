@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import React, { useCallback, useState, useEffect } from 'react';
 import { SafeAreaView, Text, StyleSheet, ActivityIndicator, View, Image, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar } from 'react-native-calendars';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
+=======
+import React, { useEffect, useState } from "react";
+import { Image, SafeAreaView, ScrollView, StatusBar, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+>>>>>>> 27fec7bd75f479979b2389be794758b7bf56e3d3
 
 const OrderPage = () => {
   const [data, setData] = useState([]);
@@ -61,6 +67,7 @@ const OrderPage = () => {
   }
 
   return (
+<<<<<<< HEAD
     <SafeAreaView style={styles.container}>
       <Calendar
         markedDates={markedDates}
@@ -94,6 +101,13 @@ const OrderPage = () => {
         </ScrollView>
       ) : (
         <Text style={styles.noDataText}>KHÔNG CÓ DỮ LIỆU CHO NGÀY {selectedDate}</Text>
+=======
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      {/* <Button title="Pick an image from camera roll" onPress={pickImage} styl={{    backgroundColor: COLORS.gray,
+}} /> */}
+      {image && (
+        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+>>>>>>> 27fec7bd75f479979b2389be794758b7bf56e3d3
       )}
     </SafeAreaView>
   );
